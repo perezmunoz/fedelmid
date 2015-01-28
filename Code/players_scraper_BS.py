@@ -1,1 +1,0 @@
-# to scrap players infos using BS4

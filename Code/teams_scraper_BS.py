@@ -1,1 +1,0 @@
-# to scrap team infos using BS4
