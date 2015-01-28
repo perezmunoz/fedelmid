@@ -1,0 +1,1 @@
+# Provide the links for both players and teams
