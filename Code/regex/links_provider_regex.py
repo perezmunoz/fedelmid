@@ -18,7 +18,7 @@ def players_links(c):
 	return m
 
 # Get the links for all the players
-# Return a list with results of the form /players/letter/name.html
+# Return a list with results of the form /players/letter/	name.html
 def all_players_links():
 	alphabet = string.ascii_lowercase
 	res = []
@@ -26,6 +26,15 @@ def all_players_links():
 		if c!='x':
 		#There is no player whose name starts with x	
 			res+=players_links(c)
+	return res
+
+# Get the links for all the teams
+
+def teams_links():
+	urlHandle = urllib.urlopen('http://www.basketball-reference.com/teams')
+	html=urlHandle.read()
+	needle = 'href="(/teams/[A-Z]+/)"'
+	res = re.findall(needle, html)
 	return res
 
 # Calculate the number of players to check the results
