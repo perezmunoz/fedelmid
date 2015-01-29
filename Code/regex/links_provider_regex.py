@@ -8,23 +8,24 @@ import string
 # Get the links to the players' page
 
 # Get the links for the players whose names start with the letter c
-# Return a list with results of the form /players/name.html
+# Return a list with results of the form /players/letter/name.html
 def players_links(c):	
 	urlHandle = urllib.urlopen('http://www.basketball-reference.com/players/'+c)
 	html = urlHandle.read()
 	needle = '[^p]><a href="(/players/./.+)"'
+	# We use a '.'' for 'letter' because some players change names. In this case 'letter' might not be the same as c.
 	m = re.findall(needle, html)
 	return m
 
 # Get the links for all the players
-# Return a list with results of the form /players/name.html
+# Return a list with results of the form /players/letter/name.html
 def all_players_links():
 	alphabet = string.ascii_lowercase
 	res = []
 	for c in alphabet:
 		if c!='x':
 		#There is no player whose name starts with x	
-			res+=get_players_links(c)
+			res+=players_links(c)
 	return res
 
 # Calculate the number of players to check the results
