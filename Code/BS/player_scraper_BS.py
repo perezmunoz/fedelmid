@@ -14,7 +14,7 @@ soup = BeautifulSoup(content)
 # get player name
 playerName = soup.find('h1')
 for n in playerName:
-   name = n.text
+   name = n
 
 # get info like position, shoots, height, weight, born, country, draft, NBA debut, experience
 x = soup.find_all('p','padding_bottom_half')
