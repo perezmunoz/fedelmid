@@ -16,5 +16,11 @@ playerName = soup.find('h1')
 for n in playerName:
    name = n.text
 
-# work in progress - Emery
+# get info like position, shoots, height, weight, born, country, draft, NBA debut, experience
 x = soup.find_all('p','padding_bottom_half')
+
+# get contract details
+
+# get stats totals
+
+# get stats per game
