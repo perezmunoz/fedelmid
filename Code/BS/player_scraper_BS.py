@@ -11,6 +11,10 @@ content = urllib.request.urlopen(thisURL).read()
 # process html using BeautifulSoup
 soup = BeautifulSoup(content)
 
+# get player name
+playerName = soup.find('h1')
+for n in playerName:
+   name = n.text
+
 # work in progress - Emery
-playerName = soup.find('h1').string
 x = soup.find_all('p','padding_bottom_half')
