@@ -17,8 +17,10 @@ for n in playerName:
    name = n
 
 # get info like position, shoots, height, weight, born, country, draft, NBA debut, experience
-x = soup.find_all('p','padding_bottom_half')
-
+infoall = soup.find_all('p','padding_bottom_half')
+for info1 in infoall:
+   info = info1.text
+   
 # get contract details
 
 # get stats totals
