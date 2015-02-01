@@ -5,7 +5,7 @@ Focus on scraping most of the information we need from players' links, therefore
    a. Player information (From player link)
    b. Player salaries (Combination of Salaries and Contract table on player website)
    c. Player statistics (Might be sufficient to just scrape the Totals and Per Game tables on player website)
-   d. Team statistics (Might be sufficient to just scrape Stats Total)
+   d. Team statistics (Might be sufficient to just scrape team information and Stats Total)
       (eg. http://www.basketball-reference.com/teams/ATL/stats_totals.html)
 2. Once done, we can create the csv files
 3. Create database with one table for each of the points above. Looking at about 5 tables. 
