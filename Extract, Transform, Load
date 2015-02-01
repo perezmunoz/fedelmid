@@ -8,9 +8,9 @@ Focus on scraping most of the information we need from players' links, therefore
    d. Team statistics (Might be sufficient to just scrape team information and Stats Total)
       (eg. http://www.basketball-reference.com/teams/ATL/stats_totals.html)
 2. Once done, we can create the csv files
-3. Create database with one table for each of the points above. Looking at about 5 tables. 
+3. Create database with one table for each of the points above. Looking at about 6 tables. 
    With Tables 1,2, we should be able to answer points 2-4. 
-   Tables 3,4,5 are more for the last question to justify player salary.
+   Tables 3,4,5,6 are more for the last question to justify player salary.
 
 Eg. of how the tables will look like.
 Table 1 - Player
@@ -66,4 +66,17 @@ Personal_Fouls
 Points
 
 Table 4 - PlayerStats_Per_Game
-Table 5 - TeamStats_Totals
+
+Table 5 - TeamInfo
+TeamName             VARCHAR(24) NOT NULL
+Location             VARCHAR(24)
+Seasons              INTEGER
+First_Season         YEAR
+Last_Season          YEAR
+Wins                 INTEGER
+Losses               INTEGER
+Win_Lose_Percentage  DOUBLE
+Playoff_Appearances  INTEGER
+Championships        INTEGER
+
+Table 6 - TeamStats_Totals
