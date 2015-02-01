@@ -1,0 +1,68 @@
+Refer to questions to be answered from guidedproject1.pdf
+Our design will be based on those specifications.
+
+Focus on scraping most of the information we need from players' links, therefore I propose the following.
+1. Scrape the following
+   a. Player information (From player link)
+   b. Player salaries (Combination of Salaries and Contract table on player website)
+   c. Player statistics (Might be sufficient to just scrape the Totals and Per Game tables on player website)
+   d. Team statistics (Might be sufficient to just scrape Stats Total)
+      (eg. http://www.basketball-reference.com/teams/ATL/stats_totals.html)
+2. Once done, we can create the csv files
+3. Create database with one table for each of the points above. Looking at about 5 tables. With Tables 1,2, we should be able to answer the points 1-4. Tables 3,4,5 are more for the last question to justify player salary.
+
+Eg. of how the tables will look like.
+Table 1 - Player
+PlayerID
+Name
+Position
+Shoots
+Height
+Weight
+Date of birth
+Country
+Experience
+
+Table 2 - Salary
+PlayerID
+Name
+Year
+Team
+Salary
+
+Table 3 - PlayerStats_Totals
+PlayerID
+Name
+Season
+Age
+Team
+League
+Position
+Games
+Games_Started
+Minutes_Played
+Field_Goals
+Field_Goal_Attempts
+Field_Goal_Percentage
+Three_Point_Field_Goals
+Three_Point_Field_Goal_Attempts
+Three_Point_Field_Goal_Percentage
+Two_Point_Field_Goals
+Two_Point_Field_Goal_Attempts
+Two_Point_Field_Goal_Percentage
+Effective_Field_Goal_Percentage
+Free_Throws
+Free_Throw_Attempts
+Free_Throw_Percentage
+Offensive_Rebounds
+Defensive_Rebounds
+Total_Rebounds
+Assists
+Steals
+Blocks
+Turnovers
+Personal_Fouls
+Points
+
+Table 4 - PlayerStats_Per_Game
+Table 5 - TeamStats_Totals
