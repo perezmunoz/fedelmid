@@ -1,5 +1,4 @@
-Refer to questions to be answered from guidedproject1.pdf
-Our design will be based on those specifications.
+Refer to questions to be answered from guidedproject1.pdf. Our design will be based on those specifications.
 
 Focus on scraping most of the information we need from players' links, therefore I propose the following.
 1. Scrape the following
@@ -9,7 +8,9 @@ Focus on scraping most of the information we need from players' links, therefore
    d. Team statistics (Might be sufficient to just scrape Stats Total)
       (eg. http://www.basketball-reference.com/teams/ATL/stats_totals.html)
 2. Once done, we can create the csv files
-3. Create database with one table for each of the points above. Looking at about 5 tables. With Tables 1,2, we should be able to answer the points 1-4. Tables 3,4,5 are more for the last question to justify player salary.
+3. Create database with one table for each of the points above. Looking at about 5 tables. 
+   With Tables 1,2, we should be able to answer points 2-4. 
+   Tables 3,4,5 are more for the last question to justify player salary.
 
 Eg. of how the tables will look like.
 Table 1 - Player
