@@ -1,12 +1,15 @@
-# to scrap players infos using BS4
-# written using Python 3.x
+# Provide the .csv files of player's profile and basic statistics
 
-import urllib.request
 from bs4 import BeautifulSoup
+import urllib
+import string
+import time
+
+# Scrap profile's information
 
 # declare URL to scrape from and store html in content variable
-thisURL = 'http://www.basketball-reference.com/players/c/cabocbr01.html'
-content = urllib.request.urlopen(thisURL).read()
+urlHandle = urllib.urlopen('http://www.basketball-reference.com/players/c/cabocbr01.html')
+html = urlHandle.read()
 
 # process html using BeautifulSoup
 soup = BeautifulSoup(content)
@@ -21,24 +24,6 @@ infoall = soup.find_all('p','padding_bottom_half')
 for info1 in infoall:
    info = info1.text
    
-# get contract details
-
-# get stats totals
-
-# get stats per game
-
-=============================================================================================
-"Juan's code"
-=============================================================================================
-
-from bs4 import BeautifulSoup
-import urllib # Library used to open links
-import re
-import time
-import csv
-
-# Prior to launch this script, source scraping_links_players.py (execfile command)
-
 def get_profile_player(link_player):
 
 	# List containing the player's profile
@@ -135,11 +120,36 @@ def get_all_characteristics():
 	
 	return properties
 
+# Scrap player's basic statistics
+# Return player's Totals, Per Game, Salaries and Contract tables as .csv files
+# Remember: player's links are like /players/letter/name.html
 def get_statistics_player(link_player):
-	# Verified with smithis player
-	index = BeautifulSoup(urllib.urlopen('http://www.basketball-reference.com/players/'+link_player[0]+'/'+link_player+'.html').read())
-	# Sleeps 1 second
-	time.sleep(1)
+	urlHandle = urllib.urlopen('http://www.basketball-reference.com'+link_player)
+	html = urlHandle.read()
+	soup = BeautifulSoup(html)
+	# Dictionary to store tables
+	dict = {}
+	# Getting relevant tables into the dictionary dict
+	dict['totals'] = soup.find('table', {'id': 'totals'})
+	dict['per_game'] = soup.find('table', {'id': 'per_game'})
+	dict['salaries'] = soup.find('table', {'id': 'salaries'})
+	dict['contract'] = soup.find('table', {'id': 'contract'})
+	for key in dict:
+		with open(key+'.csv', 'a') as output:
+			# Scrap lines from dict[key] table
+			if dict[key] is not None:
+				body = dict[key].tbody.find_all('tr')
+				for row in body:
+					data = row.find_all('td')
+					for i in range(len(data)):
+						output.write(str(data[i].get_text())+',')
+					output.write(link_player+'\n')
+					print key+' table has been scraped into '+key+'.csv'
+			else:
+				print 'Table '+key+' missing for player '+link_player
+
+
+
 
 	# Get all tables
 	tables = index.find_all('table')
@@ -150,6 +160,7 @@ def get_statistics_player(link_player):
 				# We take the last line in header (some tables have mutiple header lines)
 				print str(t.get('id'))
 
+				# Writing the header
 				# Tables which don't have thead tag
 				if t.thead is not None:
 					header = t.thead.find_all('tr')[-1].find_all('th')
@@ -164,6 +175,7 @@ def get_statistics_player(link_player):
 				# Add the player_id (equivalent to html link) at the end
 				output.write('Player_id'+'\n')
 				
+				# Writing the data contained in tbody
 				# Tables which don't heave tbody tag
 				if t.body is not None:
 					body = t.tbody.find_all('tr')
@@ -178,66 +190,41 @@ def get_statistics_player(link_player):
 					output.write(link_player+'\n')
 
 
-	# Get tables
-#	totals = index.find('table', {'id': 'totals'})
-#	per_game = index.find('table', {'id': 'per_game'})
-#	per_minute = index.find('table', {'id': 'per_minute'})
-#	per_poss = index.find('table', {'id': 'per_poss'})
-#	advanced = index.find('table', {'id': 'advanced'})
-#	shooting = index.find('table', {'id': 'shooting'})
-#	advanced_pbp = index.find('table', {'id': 'advanced_pbp'})
-#	playoffs_totals = index.find('table', {'id': 'playoffs_totals'})
-#	playoffs_per_game = index.find('table', {'id': 'playoffs_per_game'})
-#	playoffs_per_minute = index.find('table', {'id': 'playoffs_per_minute'})
-#	playoffs_per_poss = index.find('table', {'id': 'playoffs_per_poss'})
-#	playoffs_advanced = index.find('table', {'id': 'playoffs_advanced'})
-#	playoffs_shooting = index.find('table', {'id': 'playoffs_shooting'})
-#	playoffs_advanced_pbp = index.find('table', {'id': 'playoffs_advanced_pbp'})
-#	sim_thru = index.find('table', {'id': 'sim_thru'})
-#	sim_career = index.find('table', {'id': 'sim_career'})
-#	college = index.find('table', {'id': 'college'})
-#	salaries = index.find('table', {'id': 'salaries'})
-#	contract = index.find('table', {'id': 'contract'})
+# Tables
+# totals = index.find('table', {'id': 'totals'})
+# per_game = index.find('table', {'id': 'per_game'})
+# per_minute = index.find('table', {'id': 'per_minute'})
+# per_poss = index.find('table', {'id': 'per_poss'})
+# advanced = index.find('table', {'id': 'advanced'})
+# shooting = index.find('table', {'id': 'shooting'})
+# advanced_pbp = index.find('table', {'id': 'advanced_pbp'})
+# playoffs_totals = index.find('table', {'id': 'playoffs_totals'})
+# playoffs_per_game = index.find('table', {'id': 'playoffs_per_game'})
+# playoffs_per_minute = index.find('table', {'id': 'playoffs_per_minute'})
+# playoffs_per_poss = index.find('table', {'id': 'playoffs_per_poss'})
+# playoffs_advanced = index.find('table', {'id': 'playoffs_advanced'})
+# playoffs_shooting = index.find('table', {'id': 'playoffs_shooting'})
+# playoffs_advanced_pbp = index.find('table', {'id': 'playoffs_advanced_pbp'})
+# sim_thru = index.find('table', {'id': 'sim_thru'})
+# sim_career = index.find('table', {'id': 'sim_career'})
+# college = index.find('table', {'id': 'college'})
+# salaries = index.find('table', {'id': 'salaries'})
+# contract = index.find('table', {'id': 'contract'})
 
-	# Opening file to write in the data contained in the tables
-#	with open('smithis01.txt', 'w') as output:
-		
-		# Writing header to the file
+
+#		# Writing header to the file
 #		header_totals = totals.thead.tr.find_all('th')
 #		for i in range(len(header_totals)):
-			# Last element should be erased when importing data
+#			# Last element should be erased when importing data
 #			output.write(str(header_totals[i].get_text())+',')
-		# Back to line
-		# I add the link to the data in order to find to whom belongs it
+#		# Back to line
+#		# I add the link to the data in order to find to whom belongs it
 #		output.write('Player_id'+'\n')
 		
-		# Writing header to the file
+#		# Writing header to the file
 #		body_totals = totals.tbody.find_all('tr')
 #		for row in body_totals:
 #			data = row.find_all('td')
 #			for j in range(len(data)):
 #				output.write(str(data[j].get_text())+',')
 #			output.write('smithis01'+'\n')
-
-
-# Tables index
-# Totals id='totals'
-# Per Game id='per_game'
-# Per 36 Minutes id='per_minute'
-# Advanced id='advanced'
-# Per 100 Poss id='per_poss'
-# Shooting id='shooting'
-# Play-by-Play id='advanced_pbp'
-# Contract id='stats_table'
-# Playoffs Totals id='playoffs_totals'
-# Playoffs Per Game id='playoffs_per_game'
-# Playoffs Per Minute id='playoffs_per_minute'
-# Playoffs Per 100 Poss id='playoffs_per_poss'
-# Playoffs Advanced id='playoffs_advanced'
-# Playoffs Shooting id='playoffs_shooting'
-# Playoffs Play-by-Play id='playoffs_advanced_pbp'
-# Salaries id='salaries'
-
-# Test if list is empty
-# if not element:
-#	print "element is empty"
