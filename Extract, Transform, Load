@@ -14,20 +14,21 @@ Focus on scraping most of the information we need from players' links, therefore
 
 Eg. of how the tables will look like.
 Table 1 - Player
-PlayerID       INTEGER NOT NULL
+PlayerID       VARCHAR(18) NOT NULL
 Name           VARCHAR(32) NOT NULL
-Position       VARCHAR(18)
+Position1      VARCHAR(18)
+Position2      VARCHAR(18)
 Shoots         CHAR(1)
-Height         DOUBLE
+Height         DOUBLE      # in cm
 Weight         INTEGER
-Date of birth  DATE
+Date of birth  DATE  	   # yyyy-mm-dd	
 Country        VARCHAR(12)
-Experience     INTEGER
+Experience     INTEGER	   # rookie = 0
 
 Table 2 - Salary
 PlayerID       INTEGER NOT NULL
 Name           VARCHAR(32) NOT NULL
-Year           YEAR
+Year           YEAR        # year at the beginning of the season
 Team           VARCHAR(24)
 Salary         DOUBLE
 
