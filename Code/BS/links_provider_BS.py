@@ -1,15 +1,16 @@
 # Provide the links for both players and teams
 
 from bs4 import BeautifulSoup
-import urllib
-import string
-import time
+import urllib, time
 
+##########################################################
 # Get the links to the players' page
+##########################################################
+
 
 # Get player's first letter in name
 # Return a list of the form ['a', 'b', ..., 'z']
-def get_letters_players():
+def letters_players():
 	letters = []
 	# Opening player's page
 	urlHandle = urllib.urlopen('http://www.basketball-reference.com/players/')
@@ -22,7 +23,7 @@ def get_letters_players():
 
 # Get the links for the players whose names start with the letter c
 # Return a list with results of the form /players/letter/name.html
-def get_players_links_by_letter(c):	
+def players_links_by_letter(c):	
 	urlHandle = urllib.urlopen('http://www.basketball-reference.com/players/'+c)
 	html = urlHandle.read()
 	res = []
@@ -33,28 +34,24 @@ def get_players_links_by_letter(c):
 
 # Get the links for all the players (total: 4288)
 # Return a list with results of the form /players/letter/name.html
-<<<<<<< Updated upstream
-def get_all_players_links():
-	alphabet = get_letters_players()
+def all_players_links():
+	alphabet = letters_players()
 	res = []
-	for c in alphabet:
-		res += get_players_links_by_letter(c)
+	for letter in alphabet:
+		res += players_links_by_letter(letter)
 		# System sleeps 2 seconds between each GET request
 		time.sleep(2)
 		# Get feedback from computing
-		print c + ' players computed'
-=======
-def all_players_links():
-	alphabet = get_letters_players()
-	res = []
-	for c in alphabet:
-		res+=players_links(c)
->>>>>>> Stashed changes
+		print letter + ' players computed'
 	return res
+
+##########################################################
+# Get the links of the team
+##########################################################
 
 # Get links for the teams
 # Return a list with results of the form /teams/name/
-def get_teams_links():
+def all_teams_links():
 	urlHandle = urllib.urlopen('http://www.basketball-reference.com/teams')
 	html = urlHandle.read()
 	soup = BeautifulSoup(html)
@@ -65,29 +62,14 @@ def get_teams_links():
 		res.append(str(team.td.a.get('href')))
 	return res
 
-<<<<<<< Updated upstream
-=======
-# Get player's first letter in name
-def get_letters_players():
-	# Links are stored in an unique <table>...</table> HTML tag
-	links = []
-
-	# Opening index.html file which corresponds to url
-	index = BeautifulSoup(urllib.urlopen('http://www.basketball-reference.com/players/').read())
-
-	for row in index('td', {'class': 'align_center bold_text valign_bottom xx_large_text'}):
-		links.append(str(row.a.get('href').split('/')[2]))
-
-	# links represent the list of alphabetical players names
-	# Ex: links[0] = 'a'
-	return links
-
->>>>>>> Stashed changes
+##########################################################
 # Calculate the number of players to check the results
-# re package is only used in number_players and all_number_players
+##########################################################
+
+# re package is only used in number_players and number_all_players
 import re
 
-# Calculate the number of players whose names start with the letter c
+# Retrieve the number of players whose names start with the letter c
 # Return an integer
 def number_players(c):	
 	urlHandle = urllib.urlopen('http://www.basketball-reference.com/players/'+c)
@@ -100,21 +82,11 @@ def number_players(c):
 # Calculate the number of all the players on basketball-reference
 # Return an integer
 def number_all_players():
-<<<<<<< Updated upstream
-	alphabet = get_letters_players()
+	alphabet = letters_players()
 	res = 0
-	for letter in alphabet:
-		res += number_players(letter)
+	for c in alphabet:
+		res += number_players(c)
 		# System sleeps 2 seconds between each GET request
 		time.sleep(2)
 	return res
-=======
-	alphabet = string.ascii_lowercase
-	res=0
-	for c in alphabet:
-		if c!='x':		#There is no player whose name starts with x
-			res+=number_players(c)
-	return res
 
-print get_letters_players()
->>>>>>> Stashed changes
