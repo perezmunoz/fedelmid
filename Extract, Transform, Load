@@ -19,11 +19,13 @@ Name           VARCHAR(32) NOT NULL
 Position1      VARCHAR(18)
 Position2      VARCHAR(18)
 Shoots         CHAR(1)
-Height         DOUBLE      # in cm
+Height         DOUBLE      # in inches
 Weight         INTEGER
-Date of birth  DATE  	   # yyyy-mm-dd	
+Date of birth  DATE  	   # yyyy-mm-dd
+City           VARCHAR(12)
 Country        VARCHAR(12)
 Experience     INTEGER	   # rookie = 0
+Died           DATE        # yyyy-mm-dd
 
 Table 2 - Salary
 PlayerID       INTEGER NOT NULL

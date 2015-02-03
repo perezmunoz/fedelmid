@@ -1,0 +1,99 @@
+# to scrap players infos using BS4
+# written using Python 3.x
+
+import urllib.request
+import string
+from bs4 import BeautifulSoup
+
+# declare URL to scrape from and store html in content variable
+thisURL = 'http://www.basketball-reference.com/players/h/howardw01.html'
+content = urllib.request.urlopen(thisURL).read()
+
+# process html using BeautifulSoup
+soup = BeautifulSoup(content)
+
+# get player name
+playerName = soup.find('p','margin_top')
+playerName = playerName.find('span').get_text()
+
+infoall = soup.find_all('p','padding_bottom_half')
+for info1 in infoall:
+   info = info1.text
+   
+# get position
+if soup.find(text="Position:"):
+    position = info[info.find("Position:")+10:info.find("Shoots:")-2]
+    if "and" in position:
+        position1,position2 = position.split("and")
+        position1 = "".join(c for c in position1 if c.isupper())
+        position2 = "".join(c for c in position2 if c.isupper())
+    else:
+        position1 = "".join(c for c in position if c.isupper())
+        position2 = ''
+else:
+    position1 = ''
+    position2 = ''
+
+
+# get shooting hand
+if soup.find(text="Shoots:"):
+    shoots = info[info.find("Shoots:")+8:info.find("Height:")]
+    if "Right" in shoots:
+        shoots = "R"
+    elif "Left" in shoots:
+        shoots = "L"
+    else:
+        shoots = "E"
+else:
+    shoots = ''
+
+# get height
+if soup.find(text="Height:"):
+    height = info[info.find("Height:")+8:info.find("Weight:")]
+    height1,height2 = height.split('-')
+    height = int(height1.strip()) * 12 + int(height2[:-2].strip())
+else:
+    height = ''
+    
+# get weight
+if soup.find(text="Weight:"):
+    weight = info[info.find("Weight:")+8:info.find("lbs")].strip()
+else:
+    weight = ''
+    
+# get date of birth, city, state/country
+if soup.find(text="Born:"):
+    dob = soup.find(text="Born:").findNext('span')['data-birth']
+    birthinfo = info[info.find("Born:"):].strip()
+    place = birthinfo.split()
+    if place[4] == "in":
+        place = birthinfo.split("in",1)[-1].strip()
+        city = place.split(",",1)[0].strip()
+        place = place.split(",",1)[-1].strip()
+        state = place.split("\n",1)[0].strip()
+    else:
+        city = ''
+        state = ''
+else:
+    dob = ''
+    
+# still alive??
+if soup.find(text="Died:"):
+    died = soup.find(text="Died:").findNext('span')['data-death']
+else:
+    died = ''
+    
+# get experience
+if soup.find(text="Experience:"):
+    if info.find("Rookie") < 0:
+        exp = int(info[info.find("Experience:")+12:info.find("years")].strip())
+    else:
+        exp = 0
+else:
+    exp = ''
+    
+profile = playerName + "," + position1 + "," + position2 + "," + shoots
+profile = profile + "," + str(height) + "," + str(weight) + "," + dob + "," + city + "," + state
+profile = profile + "," + str(exp) + "," + died
+
+print(profile)
