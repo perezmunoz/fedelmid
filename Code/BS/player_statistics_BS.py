@@ -5,6 +5,7 @@ import urllib
 import string
 import time
 import csv
+import os
 
 # Scrap player's basic statistics
 # Return player's Totals, Per Game, Salaries and Contract tables as .csv files
@@ -32,8 +33,7 @@ def get_statistics_player(link_player):
 		# Table dict[key] not empty but without tbody (Ex: Contract table)
 		elif dict[key] is not None and dict[key].tbody is None:
 			write_table_wo_tbody(dict[key],key,player_id)
-			# TO MODIFY
-			print key+' table for player '+player_id+' has been scraped into '+key+'.csv'
+			print key+' table for player '+player_id+' has been scraped into salaries.csv'
 		else:
 			print 'Table '+key+' is missing for player '+player_id
 
@@ -86,54 +86,77 @@ from decimal import *
 getcontext().prec = 3
 
 def all_statistics_players():
+	# Total of attributes: 31
 	totals_header = 'PlayerID,Season,Age,Tm,Lg,Pos,G,GS,MP,FG,FGA,FG%,3P,3PA,3P%,2P,2PA,2P%,eFG%,FT,FTA,FT%,ORB,DRB,TRB,AST,STL,BLK,TOV,PF,PTS'
-	# eFG% removed if per_game table
+	# Total of attributes: 30 (eFG% removed in per_game table)
 	per_game_header = 'PlayerID,Season,Age,Tm,Lg,Pos,G,GS,MP,FG,FGA,FG%,3P,3PA,3P%,2P,2PA,2P%,FT,FTA,FT%,ORB,DRB,TRB,AST,STL,BLK,TOV,PF,PTS'
 	salaries_header = 'PlayerID,Season,Team,Lg,Salary'
 	# Write header to totals.csv, per_game.csv and salaries.csv
-	write_header(totals_header,'totals.csv')
-	write_header(per_game_header,'per_game.csv')
-	write_header(salaries_header,'salaries.csv')
+	write_header('totals.csv',totals_header)
+	write_header('per_game.csv',per_game_header)
+	write_header('salaries.csv',salaries_header)
 	# Test with res2
 	res2 =['/players/a/aventan01.html', '/players/a/averibi01.html', '/players/a/averywi01.html', '/players/a/awtrede01.html', '/players/a/ayongu01.html', '/players/p/pendeje02.html', '/players/a/azubuke01.html', '/players/b/babbch01.html', '/players/b/babbilu01.html', '/players/b/babicmi01.html', '/players/b/bachjo01.html', '/players/b/baconhe01.html', '/players/b/baechji01.html', '/players/b/bagarda01.html', '/players/b/baglejo01.html']
 	for player in res2:
 		get_statistics_player(player)
 		print player+' done'
-		print str(Decimal(res2.index(player))/Decimal((len(res2)-1))*Decimal(100))+' %'
+		print str(Decimal(res2.index(player))/Decimal((len(res2)-1))*Decimal(100))+' % computed'
 	# End of test
 	# Cleaning data: resolution of bugs #4 and #5
 	print 'Cleaning process start'
-	cleaning_season('totals.csv')
-	cleaning_season('per_game.csv')
-	cleaning_season('salaries.csv')
-
-	cleaning_salary('salaries.csv')
+	cleaning_csv('totals')
+	cleaning_csv('per_game')
+	cleaning_salaries('salaries')
 	print 'Cleaning process ends'
 
-def write_header(header,file_name):
+	# Removing temporary files
+	os.remove('totals.csv')
+	os.remove('per_game.csv')
+	os.remove('salaries.csv')
+
+def write_header(file_name,header):
 	with open(file_name, 'a') as output:
 		output.write(str(header)+'\n')
 
-def cleaning_season(file_name):
-	with open(file_name, 'a') as output:
-		dictionaries = list(csv.DictReader(output, delimiter = ','))
-		for d in dictionaries:
-			d['Season'] = d['Season'][:4]
+def cleaning_csv(file_name):
+	with open(file_name+'.csv', 'rb') as file_input:
+		with open(file_name+'_final.csv', 'wb') as file_output:
+			reader_data = csv.reader(file_input, delimiter = ',')
+			writer_data = csv.writer(file_output)
+			# Write the header to file_output by taking the first line in file_input
+			writer_data.writerow(reader_data.next())
+			# e is a row of the csv file in input and represented in a list format
+			for row in reader_data:
+				# Getting year season's start year
+				row[1] = row[1][:4]
+				# Writing the corrected line
+				writer_data.writerow(row)
 
-def cleaning_salary(file_name):
-	dictionaries = []
-	with open(file_name, 'r') as output:
-		dictionaries = list(csv.DictReader(output, delimeter = ','))	
-	for d in dictionaries:
-			d['Salary'] = d['Salary'].replace('$','').replace(',','')
-	with open(file_name, 'w') as output:
-		for d in dictionaries:
-			
+def cleaning_salaries(file_name):
+	with open(file_name+'.csv', 'rb') as file_input:
+		with open(file_name+'_final.csv', 'wb') as file_output:
+			reader_data = csv.reader(file_input, delimiter = ',')
+			writer_data = csv.writer(file_output)
+			# Write the header to file_output by taking the first line in file_input
+			writer_data.writerow(reader_data.next())
+			# e is a row of the csv file in input and represented in a list format
+			for row in reader_data:
+				# Getting year season's start year
+				row[1] = row[1][:4]
+				# Changing format of the salary from $1,500,000 to 1500000
+				row[4] = (''.join(row[4:])).replace('$','')
+				del row[5:]
+				# Writing the corrected line
+				writer_data.writerow(row)
 
 all_statistics_players()
 
+# An element of a data is of the forme:
+# {'Lg': 'NBA', 'FT': '2', 'PlayerID': 'bbaglejo01', '3P': '0', 'TOV': '0', '2PA': '2', 'Tm': 'ATL', 'FG': '0', '3PA': '0', 'DRB': '1', '2P': '0', 'AST': '3', 'Season': '1993-94', 'FT%': '1.000', 'PF': '2', 'PTS': '2', 'FGA': '2', 'GS': '0', 'G': '3', 'STL': '0', 'Age': '33', 'TRB': '1', 'FTA': '2', 'eFG%': '.000', 'BLK': '0', 'FG%': '.000', 'Pos': 'PG', '2P%': '.000', 'MP': '13', 'ORB': '0', '3P%': ''}
+# Dictionary with keys equals to first line
+
 # Test
-#res2 =['/players/a/aventan01.html', '/players/a/averibi01.html', '/players/a/averywi01.html', '/players/a/awtrede01.html', '/players/a/ayongu01.html', '/players/p/pendeje02.html', '/players/a/azubuke01.html', '/players/b/babbch01.html', '/players/b/babbilu01.html', '/players/b/babicmi01.html', '/players/b/bachjo01.html', '/players/b/baconhe01.html', '/players/b/baechji01.html', '/players/b/bagarda01.html', '/players/b/baglejo01.html']
+# res2 =['/players/a/aventan01.html', '/players/a/averibi01.html', '/players/a/averywi01.html', '/players/a/awtrede01.html', '/players/a/ayongu01.html', '/players/p/pendeje02.html', '/players/a/azubuke01.html', '/players/b/babbch01.html', '/players/b/babbilu01.html', '/players/b/babicmi01.html', '/players/b/bachjo01.html', '/players/b/baconhe01.html', '/players/b/baechji01.html', '/players/b/bagarda01.html', '/players/b/baglejo01.html']
 
 #for player in res2:
 #	get_statistics_player(player)
@@ -144,9 +167,9 @@ all_statistics_players()
 #1 [FIXED] tables which do not have tbody Tag...
 #2 [FIXED] lines which have a span tag containing an unicode character
 #3 [FIXED] Fusion contract and salaries tables
-#4 Extract first year for season
-#5 Replace ',' to '.' in salaries
-#6 Modify output contract table for player xxx has been scraped into ...
+#4 [FIXED] Extract first year for season
+#5 [FIXED] Replace '$' and ',' to '' in salaries
+#6 [FIXED] Modify output contract table for player xxx has been scraped into ...
 
 # [PASSED] Test with 10 players
 # res = ['/players/a/abdelal01.html', '/players/a/abdulza01.html', '/players/a/abdulka01.html', '/players/a/abdulma01.html', '/players/a/abdulma02.html', '/players/a/abdulta01.html', '/players/a/abdursh01.html', '/players/a/abernto01.html', '/players/a/ablefo01.html', '/players/a/abramjo01.html']
