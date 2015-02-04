@@ -22,7 +22,7 @@ def team_location(html):
 	location_str = tag.contents[0].contents[1]
 	location_str = location_str[1:len(location_str)-1]
 	(city,state) = location_str.split(",")
-	(city,state) = (city,state[1:len(state)-1])
+	(city,state) = (city,state[1:len(state)])
 	return city,state
 
 # Name of the team
@@ -163,7 +163,7 @@ def load_statistics_team(team_url):
 	team_id =remote_word.sub("",team_url)
 
 	# Test if the team is already in the csv file
-	if teamIsAlreadyInCsv(team_id,"team_statistics.csv"):
+	if teamIsAlreadyInCsv(team_id,"teams_statistics.csv"):
 		print("team "+team_id+" had already been added")
 		return False	
 	
@@ -182,7 +182,11 @@ def load_statistics_team(team_url):
 					break
 			except:
 				pass
-			text_to_write = data[i].get_text()+','
+			# Clean the season format
+			if re.search("[0-9][0-9][0-9][0-9]-[0-9][0-9]",data[i].get_text()):
+				text_to_write = re.search("[0-9][0-9][0-9][0-9]",data[i].get_text()).group()+","
+			else:
+				text_to_write = data[i].get_text()+','
 			output.write(text_to_write.encode('utf-8'))
 		output.write("\n")
 	print 'team table has been scraped into team_statistics.csv'
@@ -190,36 +194,30 @@ def load_statistics_team(team_url):
 
 # Main
 
-# # Get links of the teams
-# # Return a list with results of the form /teams/name/
-# def all_teams_links():
-# 	urlHandle = urllib.urlopen('http://www.basketball-reference.com/teams')
-# 	html = urlHandle.read()
-# 	soup = BeautifulSoup(html)
-# 	res = []
-# 	# To get all the teams
-# 	for team in soup.find_all(class_="full_table"):
-# 		# Get only the current teams present in soup.tbody.find_all(class_="full_table")
-# 		res.append(str(team.td.a.get('href')))
-# 	return res
+# Get links of the teams
+# Return a list with results of the form /teams/name/
+def all_teams_links():
+	urlHandle = urllib.urlopen('http://www.basketball-reference.com/teams')
+	html = urlHandle.read()
+	soup = BeautifulSoup(html)
+	res = []
+	# To get all the teams
+	for team in soup.find_all(class_="full_table"):
+		# Get only the current teams present in soup.tbody.find_all(class_="full_table")
+		res.append(str(team.td.a.get('href')))
+	return res
 
-# teams = all_teams_links()
+teams = all_teams_links()
 
-# # Going into the "Data" directory
-# os.chdir("C:\\Users\\Simon\\Documents\\Project HowBA\\NBA\\Data")
+# Going into the "Data" directory
+os.chdir("C:\\Users\\Simon\\Documents\\Project HowBA\\fedelmid\\Data")
 
-# # Writing team_stats in this directory
-# for team_url in teams:
-# 	print("currently loading stats from "+team_url)
-# 	load_statistics_team(team_url)
-# 	time.sleep(2)
+# Writing team_stats and team_basic_info in this directory
+for team_url in teams:
+	print("currently loading stats from "+team_url)
+	load_statistics_team(team_url)
+	print("currently loading basic info from "+team_url)
+	load_team_basic_info(team_url)
+	time.sleep(1)
 
-# print("loading of statistics ended")
-
-# # Writing team_basic_info in this directory
-# for team_url in teams:
-# 	print("currently loading basic info from "+team_url)
-# 	load_team_basic_info(team_url)
-# 	time.sleep(2)
-
-# print("loading of basic info ended")
+print("loading of statistics ended")
