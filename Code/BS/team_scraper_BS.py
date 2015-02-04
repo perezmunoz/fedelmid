@@ -190,7 +190,7 @@ def load_statistics_team(team_url):
 
 # Main
 
-# # Get links for the teams
+# # Get links of the teams
 # # Return a list with results of the form /teams/name/
 # def all_teams_links():
 # 	urlHandle = urllib.urlopen('http://www.basketball-reference.com/teams')
