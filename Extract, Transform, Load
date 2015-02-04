@@ -16,8 +16,9 @@ Eg. of how the tables will look like.
 Table 1 - Player
 PlayerID       VARCHAR(18) NOT NULL
 Name           VARCHAR(32) NOT NULL
-Position1      VARCHAR(18)
-Position2      VARCHAR(18)
+Position1      VARCHAR(2)
+Position2      VARCHAR(2)
+Position3      VARCHAR(2)
 Shoots         CHAR(1)
 Height         DOUBLE      # in inches
 Weight         INTEGER
