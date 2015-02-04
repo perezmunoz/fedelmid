@@ -16,7 +16,7 @@ def get_statistics_player(link_player):
 	soup = BeautifulSoup(html)
 	# Construct the id of the player: letter+name
 	# For /players/a/abdulal01.html, the player_id is aabdulal01, e.g letter+name
-	player_id = str(link_player.split('/')[2]+link_player.split('/')[3].split('.')[0])
+	player_id = (link_player.split('/')[2]+link_player.split('/')[3].split('.')[0]).encode('utf-8')
 	# Dictionary to store tables
 	dict = {}
 	# Getting relevant tables into the dictionary dict
@@ -51,12 +51,20 @@ def write_table(table,key,player_id):
 				if data[i].span is not None:
 					# Removes the span tag
 					data[i].span.extract()
-					output.write(str(data[i].get_text())+',')
+					output.write(data[i].get_text().encode('utf-8')+',')
 				# Normal case
 				else:
-					output.write(str(data[i].get_text())+',')
+					# print data[i].get_text().encode('utf-8').__class__
+					output.write(is_empty(data[i].get_text().encode('utf-8'))+',')
 			# Manipulating the last element
 			output.write(write_last_element_of_data(data[-1]))
+
+# Test if an element of the table is empty
+def is_empty(data):
+	if data=='\xc2\xa0':
+		return ''.encode('utf-8')
+	else:
+		return data
 
 def write_table_wo_tbody(table,key,player_id):
 	# Table is definitly not None here but has no tbody tag
@@ -65,21 +73,21 @@ def write_table_wo_tbody(table,key,player_id):
 		# In this case body[0] contains th tags and body[1] contains td
 		# body[0][0] returns 'Team', body[0][1] returns 'Current year', body[0][2] returns 'Next year', ...
 		# body[1][0] returns 'Team's name, body[1][1] returns 'Current year salary', ...
-		year = str(body[0].find_all('th')[1].get_text())
-		team = str(body[1].find_all('td')[0].get_text())
-		salary = str(body[1].find_all('td')[1].get_text())
+		year = body[0].find_all('th')[1].get_text().encode('utf-8')
+		team = body[1].find_all('td')[0].get_text().encode('utf-8')
+		salary = body[1].find_all('td')[1].get_text().encode('utf-8')
 		# Building the current contract
-		output.write(str(player_id+','+year+','+team+',NBA,'+salary)+'\n')
+		output.write((player_id+','+year+','+team+',NBA,'+salary).encode('utf-8')+'\n')
 
 def write_last_element_of_data(e):
 	# Special case #2 (Did not play this season)
 	if e.get('colspan') is not None:
-		return str(','*(int(str(e.get('colspan')))-1))+'\n'
+		return (','*(int(str(e.get('colspan')))-1)).encode('utf-8')+'\n'
 	elif e.span is not None:
 		e.span.extract()
-		return str(e.get_text())+'\n'
+		return e.get_text().encode('utf-8')+'\n'
 	else:
-		return str(e.get_text())+'\n'
+		return e.get_text().encode('utf-8')+'\n'
 
 from decimal import *
 # Numbers displayed
@@ -96,11 +104,13 @@ def all_statistics_players():
 	write_header('per_game.csv',per_game_header)
 	write_header('salaries.csv',salaries_header)
 	# Test with res2
-	res2 =['/players/a/aventan01.html', '/players/a/averibi01.html', '/players/a/averywi01.html', '/players/a/awtrede01.html', '/players/a/ayongu01.html', '/players/p/pendeje02.html', '/players/a/azubuke01.html', '/players/b/babbch01.html', '/players/b/babbilu01.html', '/players/b/babicmi01.html', '/players/b/bachjo01.html', '/players/b/baconhe01.html', '/players/b/baechji01.html', '/players/b/bagarda01.html', '/players/b/baglejo01.html']
-	for player in res2:
+	#res =['/players/a/aventan01.html', '/players/a/averibi01.html', '/players/a/averywi01.html', '/players/a/awtrede01.html', '/players/a/ayongu01.html', '/players/p/pendeje02.html', '/players/a/azubuke01.html', '/players/b/babbch01.html', '/players/b/babbilu01.html', '/players/b/babicmi01.html', '/players/b/bachjo01.html', '/players/b/baconhe01.html', '/players/b/baechji01.html', '/players/b/bagarda01.html', '/players/b/baglejo01.html']
+	res = all_players_links()
+	for player in res[4000:4050]:
+		time.sleep(2)
 		get_statistics_player(player)
 		print player+' done'
-		print str(Decimal(res2.index(player))/Decimal((len(res2)-1))*Decimal(100))+' % computed'
+		print str(Decimal(res.index(player))/Decimal((len(res)-1))*Decimal(100))+' % computed'
 	# End of test
 	# Cleaning data: resolution of bugs #4 and #5
 	print 'Cleaning process start'
@@ -116,7 +126,7 @@ def all_statistics_players():
 
 def write_header(file_name,header):
 	with open(file_name, 'a') as output:
-		output.write(str(header)+'\n')
+		output.write(header.encode('utf-8')+'\n')
 
 def cleaning_csv(file_name):
 	with open(file_name+'.csv', 'rb') as file_input:
@@ -149,7 +159,7 @@ def cleaning_salaries(file_name):
 				# Writing the corrected line
 				writer_data.writerow(row)
 
-all_statistics_players()
+# all_statistics_players()
 
 # An element of a data is of the forme:
 # {'Lg': 'NBA', 'FT': '2', 'PlayerID': 'bbaglejo01', '3P': '0', 'TOV': '0', '2PA': '2', 'Tm': 'ATL', 'FG': '0', '3PA': '0', 'DRB': '1', '2P': '0', 'AST': '3', 'Season': '1993-94', 'FT%': '1.000', 'PF': '2', 'PTS': '2', 'FGA': '2', 'GS': '0', 'G': '3', 'STL': '0', 'Age': '33', 'TRB': '1', 'FTA': '2', 'eFG%': '.000', 'BLK': '0', 'FG%': '.000', 'Pos': 'PG', '2P%': '.000', 'MP': '13', 'ORB': '0', '3P%': ''}
