@@ -90,7 +90,7 @@ def write_last_element_of_data(e):
 		return e.get_text().encode('utf-8')+'\n'
 
 from decimal import *
-# Numbers displayed
+# Numbers displayed in progress computing
 getcontext().prec = 3
 
 def all_statistics_players():
@@ -106,11 +106,11 @@ def all_statistics_players():
 	# Test with res2
 	#res =['/players/a/aventan01.html', '/players/a/averibi01.html', '/players/a/averywi01.html', '/players/a/awtrede01.html', '/players/a/ayongu01.html', '/players/p/pendeje02.html', '/players/a/azubuke01.html', '/players/b/babbch01.html', '/players/b/babbilu01.html', '/players/b/babicmi01.html', '/players/b/bachjo01.html', '/players/b/baconhe01.html', '/players/b/baechji01.html', '/players/b/bagarda01.html', '/players/b/baglejo01.html']
 	res = all_players_links()
-	for player in res[4000:4050]:
+	for player in res[3347:]:
 		time.sleep(2)
 		get_statistics_player(player)
 		print player+' done'
-		print str(Decimal(res.index(player))/Decimal((len(res)-1))*Decimal(100))+' % computed'
+		print str(Decimal(res.index(player))/Decimal((len(res)-1))*Decimal(100))+' % computed\n'
 	# End of test
 	# Cleaning data: resolution of bugs #4 and #5
 	print 'Cleaning process start'
@@ -141,6 +141,12 @@ def cleaning_csv(file_name):
 				row[1] = row[1][:4]
 				# Writing the corrected line
 				writer_data.writerow(row)
+
+
+# 1st step: /players/h/harrida01.html
+# res.index('/players/h/harrida01.html') = 1577
+# res.index('/players/r/rellfri01.html') = 3150
+# res.index('/players/s/savagdo01.html') = 3346
 
 def cleaning_salaries(file_name):
 	with open(file_name+'.csv', 'rb') as file_input:
@@ -180,6 +186,14 @@ def cleaning_salaries(file_name):
 #4 [FIXED] Extract first year for season
 #5 [FIXED] Replace '$' and ',' to '' in salaries
 #6 [FIXED] Modify output contract table for player xxx has been scraped into ...
+#7 Create 2 columns for players woho had more than 1 position in their career
+
+# Ex of code
+st2 = 'PF-C'
+st2_split = st2.split('-')
+if len(st2_split)>1:
+	print 'Position 1: '+st2_split[0]+'\n'
+	print 'Position 2: '+st2_split[1]+'\n'
 
 # [PASSED] Test with 10 players
 # res = ['/players/a/abdelal01.html', '/players/a/abdulza01.html', '/players/a/abdulka01.html', '/players/a/abdulma01.html', '/players/a/abdulma02.html', '/players/a/abdulta01.html', '/players/a/abdursh01.html', '/players/a/abernto01.html', '/players/a/ablefo01.html', '/players/a/abramjo01.html']
