@@ -1,6 +1,6 @@
 # Provide the links for both players and teams
 
-import re, urllib, timeit
+import re, urllib, time
 
 ##########################################################
 # Get the links to the players' page
@@ -74,7 +74,15 @@ def number_all_players():
 
 
 # print letters_players(html)
-print all_players_links() #18.3s
+
+f = open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Data/benchmark/links_provider_regex.txt','w')
+for i in range(100):
+    beg =  time.time()
+    all_players_links()
+    f.write(str(time.time() - beg))
+    print str(time.time() - beg)
+    f.write(',')
+
 # print all_teams_links() #0.1s
 # timeit.timeit('all_players_links()',number=1000)
 # timeit.timeit('all_teams_links()',number=1000)

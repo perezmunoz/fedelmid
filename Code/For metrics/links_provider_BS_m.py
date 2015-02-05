@@ -89,5 +89,13 @@ def number_all_players():
         # time.sleep(2)
     return res
 
-print all_players_links() #3.5s
+f = open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Data/benchmark/links_provider_BS.txt','w')
+for i in range(100):
+    beg =  time.time()
+    all_players_links()
+    f.write(str(time.time() - beg))
+    print str(time.time() - beg)
+    f.write(',')
+
+
 # print all_teams_links() #0.2s
