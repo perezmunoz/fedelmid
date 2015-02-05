@@ -1,7 +1,7 @@
 # Provide the links for both players and teams
 
 from bs4 import BeautifulSoup
-import urllib, time
+import urllib, time, csv
 
 ##########################################################
 # Get the links to the players' page
@@ -42,6 +42,25 @@ def all_players_links():
         # Get feedback from computing
         print letter + ' players computed'
     return res
+
+# Write in a csv file a table with playerID (letter+name) and active (True or False)
+def active_players():
+    with open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Data/active_players.csv','w') as csvfile:
+        fieldnames = ['playerID', 'active']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        alphabet = letters_players()
+        for c in alphabet:
+            html = urllib.urlopen('http://www.basketball-reference.com/players/'+c).read()
+            soup = BeautifulSoup(html)            
+            for player in soup.tbody.find_all('tr'):
+                    try:
+                        name = str(player.td.strong.a.get('href')).split('/')[3].split('.')[0]               
+                        writer.writerow({'playerID': c+name, 'active': 'True'})
+                    except AttributeError:
+                        name = str(player.td.a.get('href')).split('/')[3].split('.')[0]
+                        writer.writerow({'playerID': c+name, 'active': 'False'})  
+    return ''
 
 ##########################################################
 # Get the links of the team
@@ -88,3 +107,4 @@ def number_all_players():
         time.sleep(2)
     return res
 
+print active_players()

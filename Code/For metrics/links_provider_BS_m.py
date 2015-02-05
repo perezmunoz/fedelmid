@@ -1,7 +1,7 @@
 # Provide the links for both players and teams
 
 from bs4 import BeautifulSoup
-import urllib, time
+import urllib, time, csv
 
 ##########################################################
 # Get the links to the players' page
@@ -43,6 +43,28 @@ def all_players_links():
         # Get feedback from computing
         print c + ' players computed'
     return res
+
+def active_players():
+    f = open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Data/pages/players.html','r')
+    html = f.read()
+    alphabet = letters_players(html)
+    with open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Data/active_players.csv','w') as csvfile:
+        fieldnames = ['playerID', 'active']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for c in alphabet:
+            f = open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Data/pages/players_'+c+'.html','r')
+            html = f.read()
+            soup = BeautifulSoup(html)            
+            for player in soup.tbody.find_all('tr'):
+                    try:
+                        name = str(player.td.strong.a.get('href')).split('/')[3].split('.')[0]               
+                        writer.writerow({'playerID': c+name, 'active': 'True'})
+                    except AttributeError:
+                        name = str(player.td.a.get('href')).split('/')[3].split('.')[0]
+                        writer.writerow({'playerID': c+name, 'active': 'False'})  
+    return ''
+
 
 ##########################################################
 # Get the links of the team
@@ -89,13 +111,13 @@ def number_all_players():
         # time.sleep(2)
     return res
 
-f = open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Data/benchmark/links_provider_BS.txt','w')
-for i in range(100):
-    beg =  time.time()
-    all_players_links()
-    f.write(str(time.time() - beg))
-    print str(time.time() - beg)
-    f.write(',')
+# f = open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Data/benchmark/links_provider_BS.txt','w')
+# for i in range(100):
+#     beg =  time.time()
+#     all_players_links()
+#     f.write(str(time.time() - beg))
+#     print str(time.time() - beg)
+#     f.write(',')
 
 
-# print all_teams_links() #0.2s
+print active_players()
