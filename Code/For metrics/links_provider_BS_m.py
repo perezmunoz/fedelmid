@@ -10,11 +10,9 @@ import urllib, time
 
 # Get player's first letter in name
 # Return a list of the form ['a', 'b', ..., 'z']
-def letters_players():
-    letters = []
-    # Opening player's page
-    html = urllib.urlopen('http://www.basketball-reference.com/players/').read()
+def letters_players(html):
     soup = BeautifulSoup(html)
+    letters = []
     # Get the letters
     for row in soup('td', {'class': 'align_center bold_text valign_bottom xx_large_text'}):
         letters.append(str(row.a.get('href').split('/')[2]))
@@ -22,8 +20,7 @@ def letters_players():
 
 # Get the links for the players whose names start with the letter c
 # Return a list with results of the form /players/letter/name.html
-def players_links_by_letter(c): 
-    html = urllib.urlopen('http://www.basketball-reference.com/players/'+c).read()
+def players_links_by_letter(c, html): 
     res = []
     soup = BeautifulSoup(html)
     for player in soup.tbody.find_all('tr'):
@@ -33,14 +30,18 @@ def players_links_by_letter(c):
 # Get the links for all the players (total: 4288)
     # Return a list with results of the form /players/letter/name.html
 def all_players_links():
-    alphabet = letters_players()
+    f = open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Data/pages/players.html','r')
+    html = f.read()
+    alphabet = letters_players(html)
     res = []
-    for letter in alphabet:
-        res += players_links_by_letter(letter)
+    for c in alphabet:
+        f = open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Data/pages/players_'+c+'.html','r')
+        html = f.read()
+        res += players_links_by_letter(c, html)
         # System sleeps 2 seconds between each GET request
-        time.sleep(2)
+        # time.sleep(2)
         # Get feedback from computing
-        print letter + ' players computed'
+        print c + ' players computed'
     return res
 
 ##########################################################
@@ -50,8 +51,8 @@ def all_players_links():
 # Get links for the teams
 # Return a list with results of the form /teams/name/
 def all_teams_links():
-    urlHandle = urllib.urlopen('http://www.basketball-reference.com/teams')
-    html = urlHandle.read()
+    f = open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Data/pages/teams.html','r')
+    html = f.read()
     soup = BeautifulSoup(html)
     res = []
     # To get all the teams
@@ -85,6 +86,8 @@ def number_all_players():
     for c in alphabet:
         res += number_players(c)
         # System sleeps 2 seconds between each GET request
-        time.sleep(2)
+        # time.sleep(2)
     return res
 
+print all_players_links() #3.5s
+# print all_teams_links() #0.2s
