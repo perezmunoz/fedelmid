@@ -21,7 +21,7 @@ def all_players_links_BS():
     for letter in alphabet:
         res += players_links_by_letter_BS(letter)
         # System sleeps 2 seconds between each GET request
-        time.sleep(2)
+        # time.sleep(2)
         # Get feedback from computing
         print letter + ' players computed'
     return res

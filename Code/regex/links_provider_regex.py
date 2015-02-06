@@ -1,7 +1,5 @@
 # Provide the links for both players and teams
 
-import re, urllib, string
-
 ##########################################################
 # Get the links to the players' page
 ##########################################################

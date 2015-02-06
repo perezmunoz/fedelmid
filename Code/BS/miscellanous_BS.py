@@ -36,9 +36,9 @@ def number_all_players_BS():
     alphabet = letters_players_BS()
     res = 0
     for c in alphabet:
-        res += number_players(c)
+        res += number_players_BS(c)
         # System sleeps 2 seconds between each GET request
-        time.sleep(2)
+        # time.sleep(2)
     return res
 
 ##########################################################

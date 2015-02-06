@@ -11,7 +11,7 @@ execfile('./Metrics/benchmark_script.py')
 execfile('./Metrics/html_downloader.py')
 
 execfile('./regex/links_provider_regex.py')
-execfile('./regex/miscellanous_regex.py')
+execfile('./regex/miscellanous_regex.py')	
 
 # Get player's links
 links_players_BS = all_players_links_BS()
