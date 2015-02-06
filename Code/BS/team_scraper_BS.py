@@ -137,7 +137,7 @@ def load_statistics_team(team_url):
 	if team_is_on_csv(team_id,"teams_statistics.csv"):
 		print("team "+team_id+" had already been added")
 		return False
-	# Getting relevant tables into the dictionary dict
+	# Getting relevant table
 	table = soup.find('table', {'id': team_id})
 	# Scrap lines from table
 	body = table.tbody.find_all('tr')
