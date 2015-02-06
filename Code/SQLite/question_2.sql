@@ -1,19 +1,20 @@
 # How many active players there are during the 2011-2012 season?
 SELECT COUNT(*)
+FROM (SELECT DISTINCT A.PLAYERID
 	FROM PROFILEF A, PLAYER_TOTAL B
 	WHERE PLAYERID IN (SELECT PLAYERID FROM ACTIVEPLAYERS WHERE ACTIVE = "TRUE")
-		AND A.PLAYERID = B.PLAYERID
-		AND B.SEASON = 2011;
+	  AND A.PLAYERID = B.PLAYERID
+	  AND B.SEASON = 2011
+          AND B.TEAM <> "");
 
 # How many play in each position?
-	 SELECT X.POSITION, COUNT(*)
-	 FROM (SELECT DISTINCT PLAYERID, POSITION 
-               FROM PLAYER_TOTAL 
-               WHERE PLAYERID IN (SELECT A.PLAYERID 
-                                  FROM PROFILEF A, PLAYER_TOTAL B
-	                          WHERE PLAYERID IN (SELECT PLAYERID FROM ACTIVEPLAYERS WHERE ACTIVE = "TRUE")
-	                          AND A.PLAYERID = B.PLAYERID
-	                          AND B.SEASON = 2011) X
+	 SELECT POSITION, COUNT(*)
+	 FROM (SELECT DISTINCT A.PLAYERID, B.POSITION 
+               FROM PROFILEF A, PLAYER_TOTAL B
+               WHERE A.PLAYERID IN (SELECT PLAYERID FROM ACTIVEPLAYERS WHERE ACTIVE = "TRUE")
+                 AND A.PLAYERID = B.PLAYERID
+                 AND B.SEASON = 2011
+		 AND B.TEAM <> "")
 	 GROUP BY X.POSITION;
 
 # What is the average age, average weight, average experience, average salary in the season, average career salary?
