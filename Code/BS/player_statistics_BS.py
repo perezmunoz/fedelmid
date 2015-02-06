@@ -112,7 +112,7 @@ def all_statistics_players():
 	write_header('salaries.csv',salaries_header)
 	# Get all player's links
 	res = all_players_links()
-	for player in res[]:
+	for player in res:
 		time.sleep(2)
 		get_statistics_player(player)
 		print player+' done'
