@@ -6,6 +6,12 @@ execfile('./BS/player_profile_BS.py')
 execfile('./BS/player_statistics_BS.py')
 execfile('./BS/team_scraper_BS.py')
 
+execfile('./Metrics/benchmark_script.py')
+execfile('./Metrics/html_downloader.py')
+
+execfile('./regex/player_profile_regex.py')
+execfile('./regex/links_provider_regex.py')
+
 # Get player's links
 links_players_BS = []
 links_players_BS = all_players_links_BS()
