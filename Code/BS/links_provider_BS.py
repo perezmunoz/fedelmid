@@ -4,16 +4,16 @@ from bs4 import BeautifulSoup
 import urllib, time, csv
 
 ##########################################################
-# Get the links to the players' page
+# Get the links of the players' page
 ##########################################################
-
 
 # Get player's first letter in name
 # Return a list of the form ['a', 'b', ..., 'z']
-def letters_players():
+def letters_players_BS():
     letters = []
     # Opening player's page
     html = urllib.urlopen('http://www.basketball-reference.com/players/').read()
+    # Making the html's soup
     soup = BeautifulSoup(html)
     # Get the letters
     for row in soup('td', {'class': 'align_center bold_text valign_bottom xx_large_text'}):
@@ -22,7 +22,7 @@ def letters_players():
 
 # Get the links for the players whose names start with the letter c
 # Return a list with results of the form /players/letter/name.html
-def players_links_by_letter(c): 
+def players_links_by_letter_BS(c): 
     html = urllib.urlopen('http://www.basketball-reference.com/players/'+c).read()
     res = []
     soup = BeautifulSoup(html)
@@ -31,35 +31,36 @@ def players_links_by_letter(c):
         return res
 
 # Get the links for all the players (total: 4288)
-    # Return a list with results of the form /players/letter/name.html
-def all_players_links():
-    alphabet = letters_players()
+# Return a list with results of the form /players/letter/name.html
+def all_players_links_BS():
+    alphabet = letters_players_BS()
     res = []
     for letter in alphabet:
-        res += players_links_by_letter(letter)
+        res += players_links_by_letter_BS(letter)
         # System sleeps 2 seconds between each GET request
         time.sleep(2)
         # Get feedback from computing
         print letter + ' players computed'
     return res
 
-# Write in a csv file a table with playerID (letter+name) and active (True or False)
-def active_players():
-    with open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Data/active_players.csv','w') as csvfile:
-        fieldnames = ['playerID', 'active']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+# Write in a .csv file a table with PlayerID (letter+name) and active (True or False)
+# This table is then joined with totals.csv, per_game.csv and salaries.csv in order to get all currently active players
+def active_players_BS():
+    with open('active_players.csv','w') as file_output:
+        fieldnames = ['PlayerID', 'active']
+        writer = csv.DictWriter(file_output, fieldnames = fieldnames)
         writer.writeheader()
-        alphabet = letters_players()
+        alphabet = letters_players_BS()
         for c in alphabet:
             html = urllib.urlopen('http://www.basketball-reference.com/players/'+c).read()
             soup = BeautifulSoup(html)            
             for player in soup.tbody.find_all('tr'):
                     try:
                         name = str(player.td.strong.a.get('href')).split('/')[3].split('.')[0]               
-                        writer.writerow({'playerID': c+name, 'active': 'True'})
+                        writer.writerow({'PlayerID': c+name, 'active': 'True'})
                     except AttributeError:
                         name = str(player.td.a.get('href')).split('/')[3].split('.')[0]
-                        writer.writerow({'playerID': c+name, 'active': 'False'})  
+                        writer.writerow({'PlayerID': c+name, 'active': 'False'})  
     return ''
 
 ##########################################################
@@ -68,7 +69,7 @@ def active_players():
 
 # Get links for the teams
 # Return a list with results of the form /teams/name/
-def all_teams_links():
+def all_teams_links_BS():
     urlHandle = urllib.urlopen('http://www.basketball-reference.com/teams')
     html = urlHandle.read()
     soup = BeautifulSoup(html)
@@ -88,7 +89,7 @@ import re
 
 # Retrieve the number of players whose names start with the letter c
 # Return an integer
-def number_players(c):  
+def number_players_BS(c):  
     urlHandle = urllib.urlopen('http://www.basketball-reference.com/players/'+c)
     html = urlHandle.read()
     soup = BeautifulSoup(html)
@@ -98,13 +99,11 @@ def number_players(c):
 
 # Calculate the number of all the players on basketball-reference
 # Return an integer
-def number_all_players():
-    alphabet = letters_players()
+def number_all_players_BS():
+    alphabet = letters_players_BS()
     res = 0
     for c in alphabet:
         res += number_players(c)
         # System sleeps 2 seconds between each GET request
         time.sleep(2)
     return res
-
-print active_players()

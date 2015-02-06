@@ -10,7 +10,7 @@ import string
 
 # Get player's first letter in name
 # Return a list of the form ['a', 'b', ..., 'z']
-def letters_players():
+def letters_players_regex():
     needle = '<a href="/players/([a-z]+)/">[A-Z]+</a></td>'
     # Opening player's page
     html = urllib.urlopen('http://www.basketball-reference.com/players/').read()
@@ -20,18 +20,18 @@ def letters_players():
 
 # Get the links for the players whose names start with the letter c
 # Return a list with results of the form /players/letter/name.html
-def players_links(c):   
+def players_links_regex(c):
     needle = '[^p]><a href="(/players/./.+)"'    # We use a '.'' for 'letter' because some players change names. In this case 'letter' might not be the same as c.
     html = urllib.urlopen('http://www.basketball-reference.com/players/'+c).read()
     return re.findall(needle, html)
 
 # Get the links for all the players
 # Return a list with results of the form /players/letter/name.html
-def all_players_links():
-    alphabet = letters_players()
+def all_players_links_regex():
+    alphabet = letters_players_regex()
     res = []
     for c in alphabet:
-        res+=players_links(c)
+        res += players_links_regex(c)
         time.sleep(2)
     return res
 
@@ -41,7 +41,7 @@ def all_players_links():
 
 # Get the links for all the teams
 # Return a list with results of the form /team/name/
-def all_teams_links():
+def all_teams_links_regex():
     html = urllib.urlopen('http://www.basketball-reference.com/teams').read()
     needle = 'href="(/teams/[A-Z]+/)"'
     return re.findall(needle, html)
@@ -52,7 +52,7 @@ def all_teams_links():
 
 # Retrieve the number of players whose names start with the letter c 
 # Return an integer
-def number_players(c):  
+def number_players_regex(c):
     html = urllib.urlopen('http://www.basketball-reference.com/players/'+c).read()
     needle = '<h2 data-mobile-header="" style="">(.+) Players</h2>'
     m = re.search(needle, html)
@@ -60,10 +60,10 @@ def number_players(c):
 
 # Calculate the number of all the players on basketball-reference
 # Return an integer
-def number_all_players():
-    alphabet = letters_players()
-    res=0
+def number_all_players_regex():
+    alphabet = letters_players_regex()
+    res = 0
     for c in alphabet:
-        res+=number_players(c)
+        res += number_players_regex(c)
         time.sleep(2)
     return res
