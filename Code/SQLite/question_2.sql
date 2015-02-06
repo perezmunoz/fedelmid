@@ -25,7 +25,7 @@ WITH s1 AS
  	 GROUP BY playerid)
 SELECT avg(date('now')-a.dob)
       ,avg(a.weight)
-      ,avg(a.experience)
+      ,avg(a.experience-(strftime('%Y','now')-2011))
       ,avg(b.salary)
       ,avg(c.c_sal)
 	FROM profilef a, salary b, s1 c
