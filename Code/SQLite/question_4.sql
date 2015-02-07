@@ -11,11 +11,11 @@ FROM SALARY WHERE SEASON BETWEEN 2002 AND 2011
 GROUP BY SEASON, TEAM;
 
 # What is the average age of the players by season?
-SELECT SEASON, TEAM, AVG(AGE)
+SELECT SEASON, AVG(AGE)
 FROM PLAYER_TOTAL 
 WHERE TEAM <> ""
   AND SEASON BETWEEN 2002 AND 2011
-GROUP BY SEASON, TEAM;
+GROUP BY SEASON;
 
 # Average and variance of experience by season of each team?
 
