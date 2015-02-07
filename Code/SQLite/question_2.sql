@@ -17,23 +17,30 @@ FROM (SELECT DISTINCT A.PLAYERID, B.POSITION
           AND B.TEAM <> "")
 GROUP BY POSITION;
 
-# What is the average age, average weight, average salary in the season, average career salary?
+# What is the average age, average weight, average experience, average salary in the season, average career salary?
+
+#average salary in the season, average career salary
 WITH s1 AS
 	(SELECT SUM(salary) as c_sal, playerid
 	 FROM salary
- 	 WHERE season < 2014 AND playerid IN (SELECT playerid FROM activeplayers WHERE active = "TRUE")
+ 	 WHERE season < 2012 AND playerid IN (SELECT playerid FROM activeplayers WHERE active = "TRUE")
  	 GROUP BY playerid)
-SELECT avg(date('now')-a.dob)
-      ,avg(a.weight)
-      ,avg(b.salary)
-      ,avg(c.c_sal)
-	FROM profilef a, salary b, s1 c
+SELECT avg(a.salary)
+      ,avg(b.c_sal)
+	FROM salary a, s1 b
 	WHERE a.playerid IN (SELECT playerid FROM activeplayers WHERE active = "TRUE")
 		AND a.playerid = b.playerid
-		AND a.playerid = c.playerid
 		AND b.season = 2011;
 
-#Average experience
+#average age, weight		
+SELECT avg(b.age)
+      ,avg(a.weight)
+	FROM profilef a, player_total b
+	WHERE a.playerid IN (SELECT playerid FROM activeplayers WHERE active = "TRUE")
+		AND a.playerid = b.playerid
+		AND b.season = 2011;
+
+#average experience
 SELECT AVG(EXP) 
 FROM (SELECT COUNT(*) AS EXP 
       FROM PLAYER_TOTAL
