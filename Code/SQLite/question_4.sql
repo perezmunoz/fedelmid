@@ -21,4 +21,19 @@ GROUP BY SEASON, TEAM;
 
 
 # Can you provide the above in a "cross tabulation" format?
+select team,   
+       avg(case when season = 2002 then salary end) as "2002"
+      ,avg(case when season = 2003 then salary end) as "2003"
+      ,avg(case when season = 2004 then salary end) as "2004"
+      ,avg(case when season = 2005 then salary end) as "2005"
+      ,avg(case when season = 2006 then salary end) as "2006"
+      ,avg(case when season = 2007 then salary end) as "2007"
+      ,avg(case when season = 2008 then salary end) as "2008"
+      ,avg(case when season = 2009 then salary end) as "2009"
+      ,avg(case when season = 2010 then salary end) as "2010"
+      ,avg(case when season = 2011 then salary end) as "2011"
+from salary where season between 2002 and 2011
+group by team;
+
+
 # That is, teams are on each row, each column is a year, and the values are the metrics above?
