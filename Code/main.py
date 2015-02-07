@@ -54,5 +54,6 @@ execfile('./regex/miscellanous_regex.py')
 # # Download the teams's html pages
 # dl_teams()
 
-benchmark_regex()
-benchmark_BS()
+# # Benchmark the links provider
+# benchmark_regex()
+# benchmark_BS()
