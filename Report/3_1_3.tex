@@ -1,3 +1,5 @@
+%!TEX root = 0_architecture_rapport.tex
+
 % subsection title
 \subsection{Question 3}
 \label{subsec:313}
@@ -10,7 +12,7 @@
 \subsubsection{Question 3.b}
 \label{subsubsec:313b}
 
-\paragraph()The method used to scrap the basic statistics and salaries data, is as follows:
+\paragraph{}The method used to scrap the basic statistics and salaries data, is as follows:
 
 \begin{itemize}
 	\item \textbf{Scraping phase} by analyzing the structure of the tables (HTML tags) into .csv files
@@ -18,7 +20,7 @@
 	\item \textbf{Cleaning phase} where some column's formats are modified so that they can be loaded and manipulated in the SQLite database
 \end{itemize}
 
-\paragraph()Among all statistics of the basketball players, scraping some tables are sufficient to do the analysis requested in Part 2 (see \ref~{sec:4}). The tables selected as player's statistics are below:
+\paragraph{}Among all statistics of the basketball players, scraping some tables are sufficient to do the analysis requested in Part 2 (see \ref~{sec:4}). The tables selected as player's statistics are below:
 
 \begin{itemize}
 	\item Totals
@@ -43,9 +45,9 @@
 	%\item Contract
 \end{itemize}
 
-\paragraph()These tables deals with statistics by season (Totals) and by game (Per Game) which is enough to conduct the requested analysis. However, since tables are not exactly identical (HTML tags), scraping them wasn't as easy as expected. Numerous specialties have had to be taken in consideration.
+\paragraph{}These tables deals with statistics by season (Totals) and by game (Per Game) which is enough to conduct the requested analysis. However, since tables are not exactly identical (HTML tags), scraping them wasn't as easy as expected. Numerous specialties have had to be taken in consideration.
 
-\paragraph()As an example, here is referenced a special case encountered in Totals and Per Game tables when the player qualified to All-Star games. Next to the Season value, a star appears. Below the HTML code corresponding to the Totals table of Kobe Bryant.
+\paragraph{}As an example, here is referenced a special case encountered in Totals and Per Game tables when the player qualified to All-Star games. Next to the Season value, a star appears. Below the HTML code corresponding to the Totals table of Kobe Bryant.
 
 \begin{minted}[frame=single,linenos,mathescape,fontsize=\small]{html}
 <td align="left" >
@@ -56,7 +58,7 @@
 
 \paragraph()Scraping these web pages had been tricky in which the code should catch all these specialties. For further information about the code providing the player's statistics scraper, see the player_statistics_BS.py file.
 
-\paragraph()The output tables could be find in Data/Part2/3b folder.
+\paragraph{}The output tables could be find in Data/Part2/3b folder.
 
 % subsubsection title
 \subsubsection{Question 3.c}
@@ -69,7 +71,7 @@
 	\item Contract (current and futures contracts if any)
 \end{itemize}
 
-\paragraph()Thus, the method is to merge these two tables. Here again, some specialties on tables structure render the scraping tricky. Indeed, Contract table doesn't have a thead, tbody and tfoot tag. So its scraping is done differently. Furthermore, salary's format is \$15,000,000 for instance. Unchanged, salary cannot be loaded to the SQLite database. Dollar symbol and commas have been removed so that the new salary's format is 15000000 (Cleaning phase).
+\paragraph{}Thus, the method is to merge these two tables. Here again, some specialties on tables structure render the scraping tricky. Indeed, Contract table doesn't have a thead, tbody and tfoot tag. So its scraping is done differently. Furthermore, salary's format is \$15,000,000 for instance. Unchanged, salary cannot be loaded to the SQLite database. Dollar symbol and commas have been removed so that the new salary's format is 15000000 (Cleaning phase).
 
 % subsubsection title
 \subsubsection{Question 3.d}
