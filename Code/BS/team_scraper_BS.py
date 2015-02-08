@@ -151,8 +151,12 @@ def load_statistics_team(team_url):
 					break
 			except:
 				pass
+			# Getting the name id of the team (depends on the season as the team name can change throughout the years)
+			if i == 2:
+				re.compile("teams").search(data[i].a["href"])
+				text_to_write = re.compile("/teams/|/[0-9][0-9][0-9][0-9].html").sub("",data[i].a["href"])+","
 			# Clean the season format
-			if re.search("[0-9][0-9][0-9][0-9]-[0-9][0-9]",data[i].get_text()):
+			elif re.search("[0-9][0-9][0-9][0-9]-[0-9][0-9]",data[i].get_text()):
 				text_to_write = re.search("[0-9][0-9][0-9][0-9]",data[i].get_text()).group()+","
 			else:
 				text_to_write = data[i].get_text()+','
@@ -162,10 +166,10 @@ def load_statistics_team(team_url):
 	output.close()
 
 def all_statistics_teams():
-	teams = all_teams_links()
+	teams = all_teams_links_BS()
 	# Going into the "Data" directory
 	# Define your PATH
-	PATH = "C:\\Users\\Simon\\Documents\\Project HowBA\\fedelmid\\Data"
+	PATH = "C:\\Users\\Simon\\Documents\\Project HowBA\\fedelmid"
 	os.chdir(PATH)
 	# Writing team_stats and team_basic_info in this directory
 	for team_url in teams:
