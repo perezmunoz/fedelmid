@@ -18,7 +18,15 @@ WHERE TEAM <> ""
 GROUP BY SEASON;
 
 # Average and variance of experience by season of each team?
-
+select season
+       ,teamid
+       ,avg(experience)
+       ,sum((experience-(select avg(experience) from teamroster where season between 2002 and 2011))*
+            (experience-(select avg(experience) from teamroster where season between 2002 and 2011)))/
+            (count(experience)-1) 
+from teamroster 
+where season between 2002 and 2011 
+group by season,teamid;
 
 # Can you provide the above in a "cross tabulation" format?
 select team,   
