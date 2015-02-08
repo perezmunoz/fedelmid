@@ -29,11 +29,12 @@ SELECT A.NAME, B.TEAM
 # Over all seasons of the active players in the 2011-2012 season,
 # how much money was paid to all users by season? How many players were active in each season?
 # What is the average per player by season? 
-SELECT B.SEASON, SUM(B.SALARY), COUNT(*), AVG(B.SALARY)
-	FROM PROFILEF A, SALARY B 
-	WHERE A.PLAYERID = B.PLAYERID
-		AND A.PLAYERID IN (SELECT PLAYERID FROM ACTIVEPLAYERS WHERE ACTIVE = "TRUE")
-	GROUP BY SEASON;
 
+SELECT B.SEASON, SUM(B.SALARY), COUNT(*), AVG(B.SALARY)
+FROM PROFILEF A, SALARY B 
+WHERE A.PLAYERID = B.PLAYERID
+AND A.PLAYERID IN (SELECT PLAYERID FROM ACTIVEPLAYERS
+		   WHERE ACTIVE = "TRUE")
+GROUP BY SEASON;
  
  5.	What other data from the basketball-reference.com can you use to explain salary? You may wish to scrape more data from the website. What is your recommendation to team owners? How can you justify high prices for players?

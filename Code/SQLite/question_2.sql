@@ -1,34 +1,48 @@
 # How many active players there are during the 2011-2012 season?
-SELECT COUNT(*)
-	FROM PROFILEF A, PLAYER_TOTAL B
-	WHERE PLAYERID IN (SELECT PLAYERID FROM ACTIVEPLAYERS WHERE ACTIVE = "TRUE")
-		AND A.PLAYERID = B.PLAYERID
-		AND B.SEASON = 2011;
+SELECT COUNT(*) AS "ACTIVE PLAYERS"
+FROM (SELECT DISTINCT A.PLAYERID
+	FROM ACTIVEPLAYERS A, PLAYER_TOTAL B
+	WHERE A.PLAYERID = B.PLAYERID
+	  AND ACTIVE = "TRUE"
+	  AND B.SEASON = 2011
+          AND B.TEAM <> "");
 
 # How many play in each position?
-	 SELECT X.POSITION, COUNT(*)
-	 FROM (SELECT DISTINCT PLAYERID, POSITION 
-               FROM PLAYER_TOTAL 
-               WHERE PLAYERID IN (SELECT A.PLAYERID 
-                                  FROM PROFILEF A, PLAYER_TOTAL B
-	                          WHERE PLAYERID IN (SELECT PLAYERID FROM ACTIVEPLAYERS WHERE ACTIVE = "TRUE")
-	                          AND A.PLAYERID = B.PLAYERID
-	                          AND B.SEASON = 2011) X
-	 GROUP BY X.POSITION;
+SELECT POSITION, COUNT(*) AS TOTALS
+FROM (SELECT DISTINCT A.PLAYERID, B.POSITION 
+        FROM ACTIVEPLAYERS A, PLAYER_TOTAL B
+        WHERE A.ACTIVE = "TRUE"
+          AND A.PLAYERID = B.PLAYERID
+          AND B.SEASON = 2011
+          AND B.TEAM <> "")
+GROUP BY POSITION;
 
 # What is the average age, average weight, average experience, average salary in the season, average career salary?
+
+#average salary in the season, average career salary
 WITH s1 AS
 	(SELECT SUM(salary) as c_sal, playerid
 	 FROM salary
- 	 WHERE season < 2014 AND playerid IN (SELECT playerid FROM activeplayers WHERE active = "TRUE")
+ 	 WHERE season < 2012 AND playerid IN (SELECT playerid FROM activeplayers WHERE active = "TRUE")
  	 GROUP BY playerid)
-SELECT avg(date('now')-a.dob)
-      ,avg(a.weight)
-      ,avg(a.experience)
-      ,avg(b.salary)
-      ,avg(c.c_sal)
-	FROM profilef a, salary b, s1 c
+SELECT avg(a.salary) as AVG_SALARY
+      ,avg(b.c_sal)  as AVG_CAREER_SALARY
+	FROM salary a, s1 b
 	WHERE a.playerid IN (SELECT playerid FROM activeplayers WHERE active = "TRUE")
 		AND a.playerid = b.playerid
-		AND a.playerid = c.playerid
 		AND b.season = 2011;
+
+#average age, weight		
+SELECT avg(b.age) as AVG_AGE
+      ,avg(a.weight) as AVG_WEIGHT
+	FROM profilef a, player_total b
+	WHERE a.playerid IN (SELECT playerid FROM activeplayers WHERE active = "TRUE")
+		AND a.playerid = b.playerid
+		AND b.season = 2011;
+
+#average experience
+SELECT AVG(EXPERIENCE) as AVG_EXPERIENCE
+FROM TEAMROSTER A, ACTIVEPLAYERS B
+WHERE A.PLAYERID = SUBSTR(B.PLAYERID,2)
+  AND B.ACTIVE = "TRUE"
+  AND A.SEASON = 2011;
