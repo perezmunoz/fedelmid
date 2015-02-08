@@ -41,8 +41,10 @@ SELECT avg(b.age) as AVG_AGE
 		AND b.season = 2011;
 
 #average experience
-SELECT AVG(EXPERIENCE) as AVG_EXPERIENCE
-FROM TEAMROSTER A, ACTIVEPLAYERS B
-WHERE A.PLAYERID = SUBSTR(B.PLAYERID,2)
-  AND B.ACTIVE = "TRUE"
-  AND A.SEASON = 2011;
+select avg(exp) 
+from (select distinct a.playerid, a.experience as exp 
+      from teamsroster a, activeplayers b 
+      where a.playerid = substr(b.playerid,2) 
+        and b.active = "TRUE" 
+        and a.season = 2011);
+
