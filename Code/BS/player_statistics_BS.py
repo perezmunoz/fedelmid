@@ -111,7 +111,7 @@ def all_statistics_players():
 	write_header('per_game.csv',per_game_header)
 	write_header('salaries.csv',salaries_header)
 	# Get all player's links
-	res = all_players_links()
+	res = all_players_links_regex()
 	for player in res:
 		time.sleep(2)
 		get_statistics_player(player)

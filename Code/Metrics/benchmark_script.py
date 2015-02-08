@@ -16,6 +16,14 @@ def benchmark_regex():
         print str(time.time() - beg)
         f.write(',')
 
+from pympler import asizeof
+
+def benchmark_memory(): 
+htmls = [open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Code/Metrics/Pages/players_'+c+'.html','r').read() for c in letters_players_regex_bm()]
+soups= [file_to_soup('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Code/Metrics/Pages/players_'+c+'.html') for c in letters_players_BS_bm()]
+print asizeof.asizeof(htmls)
+print asizeof.asizeof(soups)
+
 ##########################################################
 # Get the links to the players' page regex
 ##########################################################
@@ -30,13 +38,13 @@ def players_links_by_letter_regex_bm(c):
 # Get the links for all the players
 # Return a list with results of the form /players/letter/name.html
 def all_players_links_regex_bm():
-    alphabet = letters_players_regex()
+    alphabet = letters_players_regex_bm()
     res = []
     for c in alphabet:
         res += players_links_by_letter_regex_bm(c)
         # No sleep for benchmark
         # time.sleep(2)
-        print c + ' players computed - regex'
+        # print c + ' players computed - regex'
     return res
 
 
@@ -63,13 +71,14 @@ def all_players_links_BS_bm():
         # No sleep for benchmark
         # time.sleep(2)
         # Get feedback from computing
-        print letter + ' players computed - BS'
+        # print letter + ' players computed - BS'
     return res
 
 ##########################################################
 # Get the letters which are not empty, i.e. at least one player's name starts with these letters
 ##########################################################
 
+# Using BS
 # Return a list of the form ['a', 'b', ..., 'z']
 def letters_players_BS_bm():
     letters = []
@@ -79,6 +88,15 @@ def letters_players_BS_bm():
     for row in soup('td', {'class': 'align_center bold_text valign_bottom xx_large_text'}):
         letters.append(str(row.a.get('href').split('/')[2]))
     return letters
+
+# Using regex
+# Return a list of the form ['a', 'b', ..., 'z']
+def letters_players_regex_bm():
+    needle = '<a href="/players/([a-z]+)/">[A-Z]+</a></td>'
+    # Opening player's page
+    html = open('/Users/emilebres/Documents/NUS/IS5126 HowBA/NBA_project/Code/Metrics/Pages/players.html').read()
+    # Get the letters
+    return re.findall(needle, html)
 
 ##########################################################
 # Miscellanous

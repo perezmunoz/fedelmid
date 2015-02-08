@@ -38,8 +38,8 @@ execfile('./regex/miscellanous_regex.py')
 # # Get the player's profile
 # all_profiles_players()
 
-# Get team's statistics
-all_statistics_teams()
+# # Get team's statistics
+# all_statistics_teams()
 
 # # Download the player's html pages
 # dl_players()
@@ -57,4 +57,4 @@ all_statistics_teams()
 # # Benchmark the links provider
 # benchmark_regex()
 # benchmark_BS()
-
+# benchmark_memory()
