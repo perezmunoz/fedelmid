@@ -3,12 +3,12 @@
 % subsection title
 \subsection{Question 4}
 \label{subsec:314}
-\paragraph{}For the same reasons as in \ref{subsec:312}, we use Beautifulsoup to scrap the franchise pages. More precisely, we use this package to navigate into the html tree, but we still need the regex package to make simple operations on string variables that can be found on the leaves of the tree.
+\paragraph{}We use Beautifulsoup to scrap the franchise pages. More precisely, we use this package to navigate into the HTML tree, but we still need the regex package to make simple operations on string variables that can be found on the leaves of the tree.
 
 % subsubsection title
 \subsubsection{Question 4.a}
 \label{subsubsec:314a}
-First of all, we want to scrap the basic team information. These are contained in the header of the franchise page. The html of this header can be found in the first \verb|div| tag whose class is \verb|mobile_text|. This tag is very badly organized because it consists in a succession of tags included in each other. Instead of having a list of sibling tags, all its successors are included in each other. Therefore, the Beautifulsoup code can be very tedious to write as each tag can only be reached by going down the hierarchy. Fortunately, we can avoid this problem with the function \verb|get_text()| that automatically searches the text element in the html code and concatenate them. When we apply it to the header of the franchise page, we obtain a string containing all the basic information of the team. If we take the example of Atlanta Hawks franchise page, we get the following text :
+First of all, we want to scrap the basic team information. These are contained in the header of the franchise page. The HTML of this header can be found in the first \verb|div| tag whose class is \verb|mobile_text|. This tag is very badly organized because it consists in a succession of tags included in each other. Instead of having a list of sibling tags, all its successors are included in each other. Therefore, the Beautifulsoup code can be very tedious to write as each tag can only be reached by going down the hierarchy. Fortunately, we can avoid this problem with the function \verb|get_text()| that automatically searches the text element in the HTML code and concatenate them. When we apply it to the header of the franchise page, we obtain a string containing all the basic information of the team. If we take the example of Atlanta Hawks franchise page, we get the following text :
 \begin{description}
 	\item[Location] Atlanta, Georgia 
 	\item [Team Names] Atlanta Hawks, St. Louis Hawks, Milwaukee Hawks, Tri-Cities Blackhawks
