@@ -3,7 +3,7 @@
 % subsection title
 \subsection{Question 2}
 \label{subsec:312}
-We decided to scrap the pages of all the players and not only the active ones, as the data could prove useful to assess the salaries of the players. However we also created a function \verb|active_players_BS()| which return which players are active and which are not.
+We decided to scrap the pages of all the players and not only the active ones, as the data could prove useful to assess the salaries of the players. However we also created a function \verb|active_players_BS| which return which players are active and which are not.
 
 The players are classified according to the first letter of their last name. We first retrieve all the letters which have players whose name starts with it, from \url{http://www.basketball-reference.com/players}. For example, there is no player whose name starts with X. For a letter $c$, we then download the page \url{http://www.basketball-reference.com/players/c} and extract the links to the players' page.
 

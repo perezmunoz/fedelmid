@@ -3,25 +3,28 @@
 % subsection title
 \subsection{Question 4}
 \label{subsec:314}
-For the same reasons as in Question 2, we use Beautifulsoup to scrap the franchise pages. More precisely, we use this package to navigate into the html tree, but we still need the regex package to make simple operations on string variables that can be found on the leaves of the tree.
+\paragraph{}For the same reasons as in \ref{subsec:312}, we use Beautifulsoup to scrap the franchise pages. More precisely, we use this package to navigate into the html tree, but we still need the regex package to make simple operations on string variables that can be found on the leaves of the tree.
+
 % subsubsection title
 \subsubsection{Question 4.a}
 \label{subsubsec:314a}
-First of all, we want to scrap the basic team information. These are contained in the header of the franchise page. The html of this header can be found in the first "div" tag whose class is "mobile_text". This tag is very badly organized because it consists in a succession of tags included in each other. Instead of having a list of sibling tags, all its successors are included in each other. Therefore, the Beautifulsoup code can be very tedious to write as each tag can only be reached by going down the hierarchy. Fortunately, we can avoid this problem with the function get_text() that automatically searches the text element in the html code and concatenate them. When we apply it to the header of the franchise page, we obtain a string containing all the basic information of the team. If we take the example of Atlanta Hawks franchise page, we get the following text :
-Location: Atlanta, Georgia 
-Team Names: Atlanta Hawks, St. Louis Hawks, Milwaukee Hawks, Tri-Cities Blackhawks
-Seasons: 66; 1949-50 to 2014-15 
-Record: 2584-2609, .498 W-L%
-Playoff Appearances: 43 
-Championships: 1
+First of all, we want to scrap the basic team information. These are contained in the header of the franchise page. The html of this header can be found in the first \verb|div| tag whose class is \verb|mobile_text|. This tag is very badly organized because it consists in a succession of tags included in each other. Instead of having a list of sibling tags, all its successors are included in each other. Therefore, the Beautifulsoup code can be very tedious to write as each tag can only be reached by going down the hierarchy. Fortunately, we can avoid this problem with the function \verb|get_text()| that automatically searches the text element in the html code and concatenate them. When we apply it to the header of the franchise page, we obtain a string containing all the basic information of the team. If we take the example of Atlanta Hawks franchise page, we get the following text :
+\begin{description}
+	\item[Location] Atlanta, Georgia 
+	\item [Team Names] Atlanta Hawks, St. Louis Hawks, Milwaukee Hawks, Tri-Cities Blackhawks
+	\item [Seasons] 66; 1949-50 to 2014-15
+	\item [Record] 2584-2609, .498 W-L \%
+	\item [Playoff Appearances] 43
+	\item [Championships] 1
+\end{description}
 
-Once we have this text, we just have to use the appropriate regex expressions to retrieve all the information we are interested in. In our project, we scrap them all, except the team names (we will scrap them in another table). You can notice that some piece of information are not atomic. The "Location" field for example ,contains two information : city and state. Thus, we split all information that are not atomic into several pieces. Location is split into city and state, Seasons into number of seasons, first season and last season and Record into number of wins, number of losses and win-loss percentage. We choose to identify a season with the civil year of the beginning of the season, that is to say that the season 2014-15 is denoted as 201. Besides, we have to choose a unique identifier for each franchise, since each one can have several names throughout the years. This id is a three letters abbreviation of the franchise name as it is used in the url of the pages of the franchise. For example, the abbreviation of Atlanta Hawks is "ATL" because the url of its page is http://www.basketball-reference.com/teams/ATL/.
+	Once we have this text, we just have to use the appropriate regex expressions to retrieve all the information we are interested in. In our project, we scrap them all, except the team names (we will scrap them in another table). You can notice that some pieces of information are not atomic. The \verb|Location| field for example, contains two information: city and state. Thus, we split all information that are not atomic into several pieces. \verb|Location| is split into city and state, \verb|Seasons| into number of seasons, first season and last season and \verb|Record| into number of wins, number of losses and win-loss percentage. We choose to identify a season with the civil year of the beginning of the season that is to say that the season 2014-15 is denoted as 2014. Besides, we have to choose a unique identifier for each franchise, since each one can have several names throughout the years. This id is a three letters abbreviation of the franchise name as it is used in the url of the pages of the franchise. For example, the abbreviation of Atlanta Hawks is \verb|ATL| because the url of its page is \url{http://www.basketball-reference.com/teams/ATL/}.
 
-All the basic information of all teams are scraped by the script named team_scraper_BS and they are stored in the same table named teams_basic_info.csv. 
-
+	All the basic information of all teams are scraped by the script named \verb|team_scraper_BS| and they are stored in the same table named \verb|teams_basic_info.csv|. 
 
 % subsubsection title
 \subsubsection{Question 4.b}
 \label{subsubsec:314b}
-Now we want to retrieve all the team statistics by season. These data are available on the same page as the team basic information and are already well-organized as we can find them in a table below the header. As this scraping job is very similar to what we did in question 2, we will not describe it again. However, we can point out the fact that the name of the team can change throughout the seasons and that we don't use it as it is. Instead, we use a three letters abbreviation that can be found in the url pointing to the team roster of the corresponding season. The table containing the scraping result thus has both "Franchise_id" and "Team_id" columns. All statistics of all teams are scraped buy the script gathered in a csv file named teams_statistics.
-These data are not sufficient to answer all questions of part two. In order to get players experience, we also have to scrap rosters of all teams for each season. These data are available in the csv file named roster_statistics.
+
+\paragraph{}Now we want to retrieve all the team statistics by season. These data are available on the same page as the team basic information and are already well-organized as we can find them in a table below the header. As this scraping job is very similar to what we did in \ref{subsec:312}, we will not describe it again. However, we can point out the fact that the name of the team can change throughout the seasons and that we don't use it as it is. Instead, we use a three letters abbreviation that can be found in the url pointing to the team roster of the corresponding season. The table containing the scraping result thus has both \verb|Franchise_id| and \verb|Team_id| columns. All statistics of all teams are scraped buy the script gathered in a csv file named \verb|teams_statistics|.
+These data are not sufficient to answer all questions of Part 2. In order to get players experience, we also have to scrap rosters of all teams for each season. These data are available in  \verb|roster_statistics.csv|.
