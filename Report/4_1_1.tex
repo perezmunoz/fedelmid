@@ -4,8 +4,19 @@
 \subsection{Question 1}
 \label{subsec:411}
 
-\paragraph{}The database is composed of seven tables which are reprensented below.
-\paragraph{Profile table}Player_id (varchar[12]), Name (varchar[56]), Position1 (varchar[2]), Position2 (varchar[2]), Position3 (varchar[2]), shoots (char[1]), height
+\paragraph{}The database is composed of 7 tables which are given below. Italic attributes are the keys of the table.
+
+\paragraph{Profile table}\textit{playerid} (varchar[12]), name (varchar[56]), position1 (varchar[2]), position2 (varchar[2]), position3 (varchar[2]), shoots (char[1]), height (integer), weight (integer), dob (date), city (varchar[56]), state (varchar[56]), experience (integer) and dod (date).
+
+\paragraph{Totals table}\textit{playerid} (varchar[12]), season (integer), age (integer), team (char[3]), position (varchar[6]), g (integer), gs (integer), mp (integer), fg (integer), fga (integer), fg_percent (double), three_point (integer), three_point_a (integer), three_point_percent (double), two_point (integer), two_point_a (integer), two_point_percent (double), efg_percent (double), ft (integer), fta (integer), ft_percent (double), orb (integer), drb (integer), trb (integer), ast (integer), stl (integer), blk (integer), tov (integer), pf (integer) and pts (integer).
+
+\paragraph{Per Game table}The schema of this table is the same as Totals table except the \texttt{efg_percent} attribute which is absent from Per Game table.
+
+\paragraph{Salary table}\textit{playerid} (varchar[12]), season (integer), team (varchar[24]), league (char[3]) and salary (integer).
+
+\paragraph{Team Information table}\textit{teamid} (varchar[12]), city (varchar[24]), state (varchar[24]), season (integer), first_season (integer), last_season (integer), wins (integer), losses (integer), winlose_percent (double), playoff_app (integer) and championships (integer).
+
+\paragraph{Team Statistics table}\textit{franchiseid} (varchar[12]), teamid (varchar[12]), \textit{season} (integer), 
 
 \begin{figure}[h!]
 	\begin{center}
