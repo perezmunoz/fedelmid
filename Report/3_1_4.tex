@@ -20,7 +20,7 @@ First of all, we want to scrap the basic team information. These are contained i
 
 	Once we have this text, we just have to use the appropriate regex expressions to retrieve all the information we are interested in. In our project, we scrap them all, except the team names (we will scrap them in another table). You can notice that some pieces of information are not atomic. The \verb|Location| field for example, contains two information: city and state. Thus, we split all information that are not atomic into several pieces. \verb|Location| is split into city and state, \verb|Seasons| into number of seasons, first season and last season and \verb|Record| into number of wins, number of losses and win-loss percentage. We choose to identify a season with the civil year of the beginning of the season that is to say that the season 2014-15 is denoted as 2014. Besides, we have to choose a unique identifier for each franchise, since each one can have several names throughout the years. This id is a three letters abbreviation of the franchise name as it is used in the url of the pages of the franchise. For example, the abbreviation of Atlanta Hawks is \verb|ATL| because the url of its page is \url{http://www.basketball-reference.com/teams/ATL/}.
 
-	All the basic information of all teams are scraped by the script named \verb|team_scraper_BS| and they are stored in the same table named \verb|teams_basic_info.csv|. 
+	All the basic information of all teams are scraped by the script named \\ \verb|team_scraper_BS| and they are stored in the same table named \\ \verb|teams_basic_info.csv|. 
 
 % subsubsection title
 \subsubsection{Question 4.b}
