@@ -7,7 +7,7 @@
 % subsubsection title
 \subsubsection{Question 3.a}
 \label{subsubsec:313a}
-\paragraph{}Using the links parser from part 2, the entire player database was parsed using BeautifulSoup and basic profile information was scraped from the website. A standard template was designed to hold variables such as PlayerID (derived from the player’s HTML link was used as an unique identifier), name, positions, shooting hand, height, weight, birth date, city, state/country of birth, experience and death date. Where there are no values listed n the profile page, null values are assigned the variables.
+\paragraph{}Using the links parser from \ref{subsec:312}	, the entire player database was parsed using BeautifulSoup and basic profile information was scraped from the website. A standard template was designed to hold variables such as PlayerID (derived from the player’s HTML link was used as an unique identifier), name, positions, shooting hand, height, weight, birth date, city, state/country of birth, experience and death date. Where there are no values listed n the profile page, null values are assigned the variables.
 
 % subsubsection title
 \subsubsection{Question 3.b}
@@ -21,7 +21,7 @@
 	\item \textbf{Cleaning phase} where some column's formats are modified so that they can be loaded and manipulated in the SQLite database
 \end{itemize}
 
-\paragraph{}Among all statistics of the basketball players, scraping some tables are sufficient to do the analysis requested in Part 2 (see \ref~{sec:4}). The tables selected as player's statistics are below:
+\paragraph{}Among all statistics of the basketball players, scraping some tables are sufficient to do the analysis requested in Part 2 (see \ref{sec:4}). The tables selected as player's statistics are below:
 
 \begin{itemize}
 	\item Totals
@@ -77,5 +77,5 @@
 % subsubsection title
 \subsubsection{Question 3.d}
 \label{subsubsec:313d}
-\paragraph{}\ref{subsubsec:313a} can be repeated using Regex. I have written a sample skeleton code (profile_parser_regex.py)  to parse the player profile using Regex. Using BS to parse seems to be easier because we can make use of existing methods to call various functions like \verb|soup.find|, \verb|soup.findNext| and \verb|soup.get_text|. Using these functions make the code more readable and easily understandable. It allows for easy debugging should the program break due to an uncaught exception. Regex tends to be more rigid and inflexible. BeautifulSoup allows us to traverse the parse tree to look for specific objects at specific part of the HTML document. With regex, we have to search the entire document for each search item. 
+\paragraph{}\ref{subsubsec:313a} can be repeated using Regex. I have written a sample skeleton code (\verb|profile_parser_regex.py|)  to parse the player profile using Regex. Using BS to parse seems to be easier because we can make use of existing methods to call various functions like \verb|soup.find|, \verb|soup.findNext| and \verb|soup.get_text|. Using these functions make the code more readable and easily understandable. It allows for easy debugging should the program break due to an uncaught exception. Regex tends to be more rigid and inflexible. BeautifulSoup allows us to traverse the parse tree to look for specific objects at specific part of the HTML document. With regex, we have to search the entire document for each search item. 
 We prefer to use BS to parse HTML and obtain the strings we are interested in. Then we can use regex to retrieve the information in those strings. We feel then that the best way is to use a combination of the two.
