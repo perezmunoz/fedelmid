@@ -1,0 +1,86 @@
+Refer to questions to be answered from guidedproject1.pdf. Our design will be based on those specifications.
+
+Focus on scraping most of the information we need from players' links, therefore I propose the following.
+1. Scrape the following
+   a. Player information (From player link)
+   b. Player salaries (Combination of Salaries and Contract table on player website)
+   c. Player statistics (Might be sufficient to just scrape the Totals and Per Game tables on player website)
+   d. Team statistics (Might be sufficient to just scrape team information and Stats Total)
+      (eg. http://www.basketball-reference.com/teams/ATL/stats_totals.html)
+2. Once done, we can create the csv files
+3. Create database with one table for each of the points above. Looking at about 6 tables. 
+   With Tables 1,2, we should be able to answer points 2-4. 
+   Tables 3,4,5,6 are more for the last question to justify player salary.
+
+Eg. of how the tables will look like.
+Table 1 - Player
+PlayerID       VARCHAR(18) NOT NULL
+Name           VARCHAR(32) NOT NULL
+Position1      VARCHAR(2)
+Position2      VARCHAR(2)
+Position3      VARCHAR(2)
+Shoots         CHAR(1)
+Height         DOUBLE      # in inches
+Weight         INTEGER
+Date of birth  DATE  	   # yyyy-mm-dd
+City           VARCHAR(12)
+Country        VARCHAR(12)
+Experience     INTEGER	   # rookie = 0
+Died           DATE        # yyyy-mm-dd
+
+Table 2 - Salary
+PlayerID       INTEGER NOT NULL
+Name           VARCHAR(32) NOT NULL
+Year           YEAR        # year at the beginning of the season
+Team           VARCHAR(24)
+Salary         DOUBLE
+
+Table 3 - PlayerStats_Totals
+PlayerID
+Name
+Season
+Age
+Team
+League
+Position
+Games
+Games_Started
+Minutes_Played
+Field_Goals
+Field_Goal_Attempts
+Field_Goal_Percentage
+Three_Point_Field_Goals
+Three_Point_Field_Goal_Attempts
+Three_Point_Field_Goal_Percentage
+Two_Point_Field_Goals
+Two_Point_Field_Goal_Attempts
+Two_Point_Field_Goal_Percentage
+Effective_Field_Goal_Percentage
+Free_Throws
+Free_Throw_Attempts
+Free_Throw_Percentage
+Offensive_Rebounds
+Defensive_Rebounds
+Total_Rebounds
+Assists
+Steals
+Blocks
+Turnovers
+Personal_Fouls
+Points
+
+Table 4 - PlayerStats_Per_Game
+
+Table 5 - TeamInfo
+TeamName             VARCHAR(24) NOT NULL
+Location             VARCHAR(24)
+Seasons              INTEGER
+First_Season         YEAR
+Last_Season          YEAR
+Wins                 INTEGER
+Losses               INTEGER
+Win_Lose_Percentage  DOUBLE
+Playoff_Appearances  INTEGER
+Championships        INTEGER
+
+Table 6 - TeamStats_Totals
