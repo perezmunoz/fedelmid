@@ -1,7 +1,0 @@
-# Fdb version 3
-["pdflatex"] 1423395916 "$pdflatex = '%E -interaction=nonstopmode  -synctex=1 %S %O'" "$pdflatex = '%E -interaction=nonstopmode  -synctex=1 %S %O'.pdf" "$pdflatex = '%E -interaction=nonstopmode  -synctex=1 %S %O'" 1423395916
-  "$pdflatex = '%E -interaction=nonstopmode  -synctex=1 %S %O'" 0 -1 0 ""
-  "$pdflatex = '%E -interaction=nonstopmode  -synctex=1 %S %O'.aux" 1423395916 8 a94a2480d3289e625eea47cd1b285758 ""
-  (generated)
-  "$pdflatex = '%E -interaction=nonstopmode  -synctex=1 %S %O'.log"
-  "$pdflatex = '%E -interaction=nonstopmode  -synctex=1 %S %O'.pdf"
