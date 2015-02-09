@@ -4,27 +4,27 @@
 \subsection{Question 4}
 \label{subsec:414}
 
-The answers to the following questions are provided in csv files in the ZIP folder. For each question, we will provide the name of the file containing the answer as well as the location of the source code in the ZIP folder.
+\paragraph{}The answers to the following questions are provided in .csv files in the ZIP folder. For each question, we will provide the name of the file containing the answer as well as the location of the source code in the ZIP folder.
 
 % subsubsection title
 \subsubsection{Question 4.a}
 \label{subsubsec:414a}
 
-The SQL queries are in \url{Code/Part2/Q4/sql_question_part2_Q4a.sql}. The answers are in \url{Data/Part2/Q4/question_4a_average_salaries.csv} and \url{Data/Part2/Q4/question_4a_variance_of_salaries.csv}.
+\paragrapg{}The SQLite queries are in \url{Code/Part2/Q4/sql_question_part2_Q4a.sql}. The answers are in \url{Data/Part2/Q4/question_4a_average_salaries.csv} and \url{Data/Part2/Q4/question_4a_variance_of_salaries.csv}.
 
 % subsubsection title
 \subsubsection{Question 4.b}
 \label{subsubsec:414b}
 
-The SQL queries are in \url{Code/Part2/Q4/sql_question_part2_Q4b.sql}. The answers are in \url{Data/Part2/Q4/question_4b_average_age.csv} and \url{Data/Part2/Q4/question_4b_average_and_variance_experience.csv}.
+\paragrapg{}The SQLite queries are in \url{Code/Part2/Q4/sql_question_part2_Q4b.sql}. The answers are in \url{Data/Part2/Q4/question_4b_average_age.csv} and \url{Data/Part2/Q4/question_4b_average_and_variance_experience.csv}.
 
 % subsubsection title
 \subsubsection{Question 4.c}
 \label{subsubsec:414c}
 
-The metrics above can be represented in a cross-tabulation format through the use of the case statement. The query is called for one team and then repeated for all the teams in 2011-2012 season and each result is concatenated using \verb|UNION ALL|. 
+\paragraph{}The metrics above can be represented in a cross-tabulation format through the use of the case statement. The query is called for one team and then repeated for all the teams in 2011-2012 season and each result is concatenated using \verb|UNION ALL|. 
 
-The query can be found in \url{Data/Part2/question_4c_cross_tabulation_format.csv}.
-The query shows the average age where team name is the first column for each row and year is the column. The query is then repeated and an \verb|UNION ALL| is performed to join each query. The process is repeated for each team (\verb|ATL BOS CHA CHI CLE DAL|  \verb|DEN DET GSW HOU IND LAC LAL MEM MIA MIL MIN NJN NOH NYK OKC ORL PHI| \verb|PHO POR SAC SAS TOR UTA WAS|)
+\paragraph{}The query can be found in \url{Data/Part2/question_4c_cross_tabulation_format.csv}.
+The query shows the average age where team name is the first column for each row and year is the column. The query is then repeated and an \verb|UNION ALL| is performed to join each query. The process is repeated for each team (\verb|ATL BOS CHA| \verb|CHI CLE DAL DEN DET GSW HOU IND LAC LAL MEM MIA MIL MIN NJN NOH NYK OKC ORL PHI| \\ \verb|PHO POR SAC SAS TOR UTA WAS|).
 
-The results for 3 teams are shown in \url{Data/Part2/question_4c_cross_tabulation_format.csv}.  For teams who changed names between 2002 and 2012 (for example Charlotte Hornets became New Orleans Hornets), both names would be in the table and \verb|null| values would be inserted for the years when the team did not exist. 
+\paragragh{}The results for 3 teams are shown in \url{Data/Part2/question_4c_cross_tabulation_format.csv}.  For teams who changed names between 2002 and 2012 (for example Charlotte Hornets became New Orleans Hornets), both names would be in the table and \verb|NULL| values would be inserted for the years when the team did not exist. The rest of the teams have not been done because it is very time consuming to write the code for each team.
