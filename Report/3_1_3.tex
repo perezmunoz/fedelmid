@@ -7,7 +7,7 @@
 % subsubsection title
 \subsubsection{Question 3.a}
 \label{subsubsec:313a}
-\paragraph{}Using the links parser from the code written in Part 1 Question 2, the entire player database was parsed using BeautifulSoup and basic profile information was scraped from the website. A standard template was designed to hold variables such as \ver{playerid} (derived from the player’s HTML link was used as an unique identifier), name, positions, shooting hand, height, weight, birth date, city, state/country of birth, experience and death date. Where there are no values listed in the profile page, null values are assigned to the variables.
+\paragraph{}Using the links parser from the code written in Part 1 Question 2, the entire player database was parsed using BeautifulSoup and basic profile information was scraped from the website. A standard template was designed to hold variables such as \verb|playerid| (derived from the player’s HTML link was used as an unique identifier), name, positions, shooting hand, height, weight, birth date, city, state/country of birth, experience and death date. Where there are no values listed in the profile page, null values are assigned to the variables.
 
 % subsubsection title
 \subsubsection{Question 3.b}
@@ -59,7 +59,7 @@
 
 \paragraph{}Scraping these web pages had been tricky in which the code should catch all these specialties. For further information about the code providing the player's statistics scraper, see the \verb|player_statistics_BS.py| file at \url{Code/BS/}.
 
-\paragraph{}The output \verb|totals_final.csv| and \verb|per_game_final.csv| tables can be find in \ur{Data/Part1/} folder.
+\paragraph{}The output \verb|totals_final.csv| and \verb|per_game_final.csv| tables can be find in \url{Data/Part1/} folder.
 
 % subsubsection title
 \subsubsection{Question 3.c}
@@ -74,7 +74,7 @@
 
 \paragraph{}Thus, the method is to merge these two tables. Here again, some specialties on tables structure render the scraping tricky. Indeed, Contract table doesn't have a thead, tbody and tfoot tag. So its scraping is done differently. Furthermore, salary's format is \$15,000,000 for instance. Unchanged, salary cannot be loaded to the SQLite database. Dollar symbol and commas have been removed so that the new salary's format is 15000000 (Cleaning phase).
 
-\paragraph{}The output \verb|salaries_final.csv| table can be find in \ur{Data/Part1/} folder.
+\paragraph{}The output \verb|salaries_final.csv| table can be find in \url{Data/Part1/} folder.
 
 % subsubsection title
 \subsubsection{Question 3.d}
