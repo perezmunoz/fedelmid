@@ -36,7 +36,7 @@ def all_teams_links_BS():
     soup = url_to_soup('http://www.basketball-reference.com/teams')
     res = []
     # To get all the teams
-    for team in soup.find_all(class_="full_table"):
+    for team in soup.find_all('class':"full_table"):
         # Get only the current teams present in soup.tbody.find_all(class_="full_table")
         res.append(str(team.td.a.get('href')))
     return res

@@ -17,7 +17,8 @@ execfile('./regex/miscellanous_regex.py')
 
 # # Get player's links
 # links_players_BS = all_players_links_BS()
-# links_players_regex = all_players_links_regex()
+links_players_regex = all_players_links_regex()
+print links_players_regex
 
 # # Get team's links
 # links_teams_BS = all_teams_links_BS()
